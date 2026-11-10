@@ -18,7 +18,9 @@ import {
   Calendar as CalendarIcon,
   ChevronDown,
   X,
+  FileSpreadsheet,
 } from "lucide-react";
+import { exportToExcel } from "@/lib/excel";
 import { format, startOfDay, endOfDay, startOfMonth } from "date-fns";
 import { es } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
@@ -273,6 +275,86 @@ export default function InventoryPage() {
     0
   );
 
+  const handleExportToExcel = () => {
+    const listToExport = filteredProducts.length > 0 ? filteredProducts : products;
+    if (listToExport.length === 0) {
+      toast.error("No hay productos disponibles para exportar");
+      return;
+    }
+
+    const data = listToExport.map((prod, index) => {
+      const categoryName =
+        prod.category?.name ||
+        categories.find((c) => c.id === prod.categoryId)?.name ||
+        "General";
+
+      const stockNum = Number(prod.stock || 0);
+      const minStockNum = Number(prod.minStock || 0);
+      const stockStatus =
+        stockNum <= 0
+          ? "AGOTADO"
+          : prod.isLowStock || stockNum <= minStockNum
+          ? "STOCK BAJO"
+          : "NORMAL";
+
+      return {
+        "N°": index + 1,
+        "PRODUCTO": prod.name || "",
+        "MARCA": prod.brand || "",
+        "LÍNEA": prod.sku || "",
+        "CÓDIGO DE BARRAS": prod.barcode || "",
+        "CATEGORÍA": categoryName,
+        "COSTO ($)": Number(prod.costPrice || 0),
+        "PRECIO VENTA ($)": Number(prod.salePrice || 0),
+        "STOCK SISTEMA": stockNum,
+        "UNIDAD": prod.unit || "UND",
+        "STOCK MÍNIMO": minStockNum,
+        "ESTADO": stockStatus,
+        "CONTEO FÍSICO": "", // Para reconteo en físico
+        "DIFERENCIA": "", // Para cálculo de faltante / sobrante
+        "OBSERVACIONES": "",
+      };
+    });
+
+    const colWidths = [
+      6,   // N°
+      32,  // PRODUCTO
+      18,  // MARCA
+      22,  // LÍNEA
+      18,  // CÓDIGO DE BARRAS
+      26,  // CATEGORÍA
+      14,  // COSTO ($)
+      16,  // PRECIO VENTA ($)
+      16,  // STOCK SISTEMA
+      10,  // UNIDAD
+      14,  // STOCK MÍNIMO
+      14,  // ESTADO
+      18,  // CONTEO FÍSICO
+      14,  // DIFERENCIA
+      25,  // OBSERVACIONES
+    ];
+
+    const timestamp = format(new Date(), "yyyyMMdd_HHmm");
+    const safeSlug = typeof slug === "string" && slug ? slug : "comercio";
+    const fileName = `Inventario_${safeSlug}_${timestamp}.xlsx`;
+
+    try {
+      exportToExcel(data, fileName, "Inventario", colWidths);
+      if (filteredProducts.length < products.length) {
+        toast.success(
+          `Exportados ${data.length} productos filtrados (de ${products.length} en total)`
+        );
+      } else {
+        toast.success(
+          `Inventario exportado exitosamente (${data.length} productos)`
+        );
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Error al generar el archivo Excel");
+    }
+  };
+
   return (
     <div className="w-full max-w-[1700px] mx-auto p-4 md:p-6 space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-card border border-border p-6 rounded-3xl">
@@ -283,6 +365,16 @@ export default function InventoryPage() {
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleExportToExcel}
+            className="h-12 px-5 rounded-2xl font-bold border-border/80 hover:border-emerald-500 hover:text-emerald-600 transition-all shadow-sm"
+            title="Exportar catálogo e inventario para auditoría / reconteo físico en Excel"
+          >
+            <FileSpreadsheet className="h-5 w-5 mr-2 text-emerald-500" />
+            Exportar Excel
+          </Button>
           <Button
             type="button"
             variant="outline"
