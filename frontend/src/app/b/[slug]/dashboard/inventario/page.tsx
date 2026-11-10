@@ -65,6 +65,7 @@ export default function InventoryPage() {
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<any | null>(null);
   const [prodName, setProdName] = useState("");
+  const [prodBrand, setProdBrand] = useState("");
   const [prodSku, setProdSku] = useState("");
   const [prodBarcode, setProdBarcode] = useState("");
   const [prodCategoryId, setProdCategoryId] = useState("");
@@ -128,6 +129,7 @@ export default function InventoryPage() {
   const openNewProductModal = () => {
     setEditingProduct(null);
     setProdName("");
+    setProdBrand("");
     setProdSku("");
     setProdBarcode("");
     setProdCategoryId(categories[0]?.id || "");
@@ -142,6 +144,7 @@ export default function InventoryPage() {
   const openEditProductModal = (prod: any) => {
     setEditingProduct(prod);
     setProdName(prod.name);
+    setProdBrand(prod.brand || "");
     setProdSku(prod.sku || "");
     setProdBarcode(prod.barcode || "");
     setProdCategoryId(prod.categoryId || "");
@@ -162,6 +165,7 @@ export default function InventoryPage() {
       const payload = {
         companyId,
         name: prodName.trim(),
+        brand: prodBrand.trim() || undefined,
         sku: prodSku.trim() || undefined,
         barcode: prodBarcode.trim() || undefined,
         categoryId: prodCategoryId || null,
@@ -257,6 +261,7 @@ export default function InventoryPage() {
     const matchesSearch =
       !q ||
       p.name.toLowerCase().includes(q) ||
+      (p.brand && p.brand.toLowerCase().includes(q)) ||
       (p.sku && p.sku.toLowerCase().includes(q)) ||
       (p.barcode && p.barcode.toLowerCase().includes(q));
     return matchesCat && matchesLow && matchesSearch;
@@ -269,7 +274,7 @@ export default function InventoryPage() {
   );
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="w-full max-w-[1700px] mx-auto p-4 md:p-6 space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-card border border-border p-6 rounded-3xl">
         <div>
           <h1 className="text-2xl font-black tracking-tight">
@@ -394,40 +399,61 @@ export default function InventoryPage() {
             </div>
           ) : (
             <table className="w-full text-sm text-left">
-              <thead className="text-xs uppercase bg-muted/40 text-muted-foreground border-b border-border">
+              <thead className="text-xs uppercase bg-muted/40 text-muted-foreground border-b border-border tracking-wider">
                 <tr>
-                  <th className="px-4 py-3.5 font-bold">Producto / Código</th>
-                  <th className="px-4 py-3.5 font-bold">Categoría</th>
-                  <th className="px-4 py-3.5 font-bold">Costo</th>
-                  <th className="px-4 py-3.5 font-bold">Precio Venta</th>
-                  <th className="px-4 py-3.5 font-bold">Existencia Actual</th>
-                  <th className="px-4 py-3.5 font-bold">Acciones</th>
+                  <th className="px-6 py-4 font-bold min-w-[300px]">Producto / Código</th>
+                  <th className="px-5 py-4 font-bold min-w-[140px]">Marca</th>
+                  <th className="px-5 py-4 font-bold min-w-[170px]">Categoría</th>
+                  <th className="px-5 py-4 font-bold min-w-[110px]">Costo</th>
+                  <th className="px-5 py-4 font-bold min-w-[120px]">Precio Venta</th>
+                  <th className="px-5 py-4 font-bold min-w-[150px]">Existencia Actual</th>
+                  <th className="px-6 py-4 font-bold min-w-[170px] text-right">Acciones</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/60 text-sm text-foreground">
                 {filteredProducts.map((prod) => (
-                  <tr key={prod.id} className="hover:bg-muted/20">
-                    <td className="px-4 py-3.5 text-sm text-foreground">
-                      <p className="font-bold text-sm text-foreground">
+                  <tr key={prod.id} className="hover:bg-muted/20 transition-colors">
+                    <td className="px-6 py-4 text-sm text-foreground">
+                      <p className="font-bold text-base text-foreground">
                         {prod.name}
                       </p>
-                      <p className="text-xs font-normal text-muted-foreground">
+                      <p className="text-xs font-medium text-muted-foreground mt-0.5">
                         SKU: {prod.sku || "—"} • Barras: {prod.barcode || "—"}
                       </p>
                     </td>
-                    <td className="px-4 py-3.5 font-normal text-sm text-foreground">
-                      {prod.category ? prod.category.name : "General"}
+                    <td className="px-5 py-4 text-sm text-foreground">
+                      {prod.brand ? (
+                        <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                          {prod.brand}
+                        </span>
+                      ) : (
+                        <span className="text-muted-foreground/60 text-xs italic">Sin marca</span>
+                      )}
                     </td>
-                    <td className="px-4 py-3.5 font-normal text-sm text-foreground">
+                    <td className="px-5 py-4 font-medium text-sm text-foreground">
+                      {prod.category ? (
+                        <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium bg-muted text-foreground border border-border/70">
+                          {prod.category.name}
+                        </span>
+                      ) : (
+                        <span className="text-muted-foreground/60 text-xs">General</span>
+                      )}
+                    </td>
+                    <td className="px-5 py-4 font-normal text-sm text-foreground">
                       ${formatNumber(prod.costPrice)}
                     </td>
-                    <td className="px-4 py-3.5 font-normal text-sm text-foreground">
+                    <td className="px-5 py-4 font-bold text-sm text-emerald-600 dark:text-emerald-400">
                       ${formatNumber(prod.salePrice)}
                     </td>
-                    <td className="px-4 py-3.5 font-normal text-sm text-foreground">
-                      {prod.stock} {prod.unit} (Mín: {prod.minStock})
+                    <td className="px-5 py-4 font-normal text-sm text-foreground">
+                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold ${prod.isLowStock ? "bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30" : "bg-muted/60 text-foreground"}`}>
+                        {prod.stock} {prod.unit}
+                        <span className="text-[11px] font-normal text-muted-foreground">
+                          (Mín: {prod.minStock})
+                        </span>
+                      </span>
                     </td>
-                    <td className="px-4 py-3.5 space-x-2 font-normal">
+                    <td className="px-6 py-4 text-right space-x-2 font-normal whitespace-nowrap">
                       <Button
                         type="button"
                         size="sm"
@@ -437,9 +463,9 @@ export default function InventoryPage() {
                           setAdjustType("PURCHASE");
                           setAdjustQty("");
                         }}
-                        className="rounded-xl text-sm font-normal text-foreground"
+                        className="rounded-xl text-xs font-semibold text-foreground hover:border-emerald-500"
                       >
-                        <ArrowUpDown className="h-3.5 w-3.5 mr-1" />
+                        <ArrowUpDown className="h-3.5 w-3.5 mr-1 text-emerald-500" />
                         Ajustar Stock
                       </Button>
                       <Button
@@ -447,7 +473,7 @@ export default function InventoryPage() {
                         size="sm"
                         variant="ghost"
                         onClick={() => openEditProductModal(prod)}
-                        className="rounded-xl text-foreground"
+                        className="rounded-xl text-foreground hover:bg-muted"
                       >
                         <Edit3 className="h-4 w-4" />
                       </Button>
@@ -744,49 +770,50 @@ export default function InventoryPage() {
 
       {/* Modal de Crear / Editar Producto */}
       <Dialog open={isProductModalOpen} onOpenChange={setIsProductModalOpen}>
-        <DialogContent className="sm:max-w-lg rounded-3xl">
+        <DialogContent className="w-[95vw] sm:max-w-2xl md:max-w-3xl rounded-3xl p-6 sm:p-8 max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="font-black">
+            <DialogTitle className="text-xl font-black">
               {editingProduct ? "Editar Producto" : "Nuevo Producto en Inventario"}
             </DialogTitle>
           </DialogHeader>
 
-          <form onSubmit={handleSaveProduct} className="space-y-4">
+          <form onSubmit={handleSaveProduct} className="space-y-4 pt-2">
             <div className="space-y-1.5">
-              <Label>Nombre del Producto *</Label>
+              <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                Nombre del Producto *
+              </Label>
               <Input
                 value={prodName}
                 onChange={(e) => setProdName(e.target.value)}
+                placeholder="Ej. 5A PR-501 TIPO C BLANCO"
+                className="rounded-xl h-11 text-base font-medium"
                 required
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <Label>Código SKU</Label>
+                <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  Marca
+                </Label>
                 <Input
-                  value={prodSku}
-                  onChange={(e) => setProdSku(e.target.value)}
+                  value={prodBrand}
+                  onChange={(e) => setProdBrand(e.target.value)}
+                  placeholder="Ej. Samsung, Apple, Motorola, etc."
+                  className="rounded-xl h-11 font-medium"
                 />
               </div>
-              <div className="space-y-1.5">
-                <Label>Código de Barras</Label>
-                <Input
-                  value={prodBarcode}
-                  onChange={(e) => setProdBarcode(e.target.value)}
-                />
-              </div>
-            </div>
 
-            <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <Label>Categoría</Label>
+                <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  Categoría
+                </Label>
                 <select
                   value={prodCategoryId}
                   onChange={(e) => setProdCategoryId(e.target.value)}
-                  className="w-full h-10 rounded-xl border border-border bg-background px-3 text-sm"
+                  className="w-full h-11 rounded-xl border border-border bg-background px-3 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 >
-                  <option value="">Sin categoría</option>
+                  <option value="">Sin categoría (General)</option>
                   {categories.map((cat) => (
                     <option key={cat.id} value={cat.id}>
                       {cat.name}
@@ -794,75 +821,116 @@ export default function InventoryPage() {
                   ))}
                 </select>
               </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <Label>Unidad de Medida</Label>
+                <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  Código SKU
+                </Label>
                 <Input
-                  value={prodUnit}
-                  onChange={(e) => setProdUnit(e.target.value.toUpperCase())}
+                  value={prodSku}
+                  onChange={(e) => setProdSku(e.target.value)}
+                  placeholder="Ej. SKU-001"
+                  className="rounded-xl h-11"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  Código de Barras
+                </Label>
+                <Input
+                  value={prodBarcode}
+                  onChange={(e) => setProdBarcode(e.target.value)}
+                  placeholder="Ej. 7702001002013"
+                  className="rounded-xl h-11"
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <Label>Precio de Costo</Label>
+                <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  Precio de Costo
+                </Label>
                 <Input
                   type="number"
                   value={prodCostPrice}
                   onChange={(e) => setProdCostPrice(e.target.value)}
+                  className="rounded-xl h-11"
                   required
                 />
               </div>
               <div className="space-y-1.5">
-                <Label>Precio de Venta *</Label>
+                <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  Precio de Venta *
+                </Label>
                 <Input
                   type="number"
                   value={prodSalePrice}
                   onChange={(e) => setProdSalePrice(e.target.value)}
+                  className="rounded-xl h-11 font-bold text-emerald-600 dark:text-emerald-400"
                   required
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-1.5">
-                <Label>Stock Actual</Label>
+                <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  Stock Actual
+                </Label>
                 <Input
                   type="number"
                   value={prodStock}
                   onChange={(e) => setProdStock(e.target.value)}
+                  className="rounded-xl h-11"
                   required
                 />
               </div>
               <div className="space-y-1.5">
-                <Label>Alerta Stock Mínimo</Label>
+                <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  Alerta Stock Mínimo
+                </Label>
                 <Input
                   type="number"
                   value={prodMinStock}
                   onChange={(e) => setProdMinStock(e.target.value)}
+                  className="rounded-xl h-11"
                   required
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  Unidad de Medida
+                </Label>
+                <Input
+                  value={prodUnit}
+                  onChange={(e) => setProdUnit(e.target.value.toUpperCase())}
+                  placeholder="UND, KG, LT"
+                  className="rounded-xl h-11 uppercase"
                 />
               </div>
             </div>
 
-            <DialogFooter>
+            <DialogFooter className="pt-4 border-t border-border/60 gap-2">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => setIsProductModalOpen(false)}
-                className="rounded-xl"
+                className="rounded-xl h-11 px-5"
               >
                 Cancelar
               </Button>
               <Button
                 type="submit"
                 disabled={isSavingProduct}
-                className="rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold"
+                className="rounded-xl h-11 px-6 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold shadow-lg shadow-emerald-500/20"
               >
                 {isSavingProduct ? (
                   <Loader2 className="h-4 w-4 animate-spin mr-2" />
                 ) : null}
-                Guardar
+                Guardar Producto
               </Button>
             </DialogFooter>
           </form>

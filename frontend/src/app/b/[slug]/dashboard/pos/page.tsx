@@ -209,6 +209,7 @@ export default function PosTerminalPage() {
     const matchesSearch =
       !q ||
       p.name.toLowerCase().includes(q) ||
+      (p.brand && p.brand.toLowerCase().includes(q)) ||
       (p.sku && p.sku.toLowerCase().includes(q)) ||
       (p.barcode && p.barcode.toLowerCase().includes(q));
     return matchesCat && matchesSearch;
@@ -441,7 +442,7 @@ export default function PosTerminalPage() {
                     <div>
                       <div className="flex items-center justify-between gap-1 mb-1.5">
                         <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-md bg-muted text-muted-foreground truncate">
-                          {product.sku || product.barcode || "SIN-SKU"}
+                          {product.brand ? product.brand : (product.sku || product.barcode || "SIN-SKU")}
                         </span>
                         {inCart && (
                           <span className="h-5 min-w-5 px-1.5 rounded-full bg-emerald-500 text-slate-950 font-black text-[11px] flex items-center justify-center">

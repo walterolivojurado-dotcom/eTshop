@@ -135,6 +135,7 @@ export class InventoryService {
       const q = filters.search.trim();
       where.OR = [
         { name: { contains: q, mode: 'insensitive' } },
+        { brand: { contains: q, mode: 'insensitive' } },
         { sku: { contains: q, mode: 'insensitive' } },
         { barcode: { contains: q, mode: 'insensitive' } },
       ];
@@ -180,6 +181,7 @@ export class InventoryService {
           companyId,
           categoryId: dto.categoryId || null,
           name: dto.name.trim(),
+          brand: dto.brand ? dto.brand.trim() : null,
           description: dto.description || null,
           sku: dto.sku ? dto.sku.trim() : null,
           barcode: dto.barcode ? dto.barcode.trim() : null,
@@ -239,6 +241,7 @@ export class InventoryService {
         where: { id },
         data: {
           ...(dto.name !== undefined && { name: dto.name.trim() }),
+          ...(dto.brand !== undefined && { brand: dto.brand ? dto.brand.trim() : null }),
           ...(dto.description !== undefined && { description: dto.description }),
           ...(dto.categoryId !== undefined && { categoryId: dto.categoryId || null }),
           ...(dto.sku !== undefined && { sku: dto.sku ? dto.sku.trim() : null }),

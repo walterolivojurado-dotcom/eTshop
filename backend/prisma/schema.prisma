@@ -146,6 +146,7 @@ model Product {
   companyId      String          @map("company_id") @db.Uuid
   categoryId     String?         @map("category_id") @db.Uuid
   name           String
+  brand          String?
   description    String?
   sku            String?
   barcode        String?

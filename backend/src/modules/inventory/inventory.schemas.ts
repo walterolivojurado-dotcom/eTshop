@@ -25,6 +25,7 @@ export const updateCategorySchema = z.object({
 export const createProductSchema = z.object({
   body: z.object({
     name: z.string().min(2, 'El nombre del producto es requerido').max(150),
+    brand: z.string().max(100).nullable().optional(),
     description: z.string().max(500).optional(),
     categoryId: z.string().uuid().nullable().optional().or(z.literal('')),
     sku: z.string().max(80).optional(),
@@ -45,6 +46,7 @@ export const createProductSchema = z.object({
 export const updateProductSchema = z.object({
   body: z.object({
     name: z.string().min(2).max(150).optional(),
+    brand: z.string().max(100).nullable().optional(),
     description: z.string().max(500).nullable().optional(),
     categoryId: z.string().uuid().nullable().optional().or(z.literal('')),
     sku: z.string().max(80).nullable().optional(),
