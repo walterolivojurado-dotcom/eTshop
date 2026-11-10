@@ -360,7 +360,7 @@ export default function InventoryPage() {
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Buscar por nombre, SKU o código de barras..."
+              placeholder="Buscar por nombre, línea o código de barras..."
               className="pl-10 rounded-xl"
             />
           </div>
@@ -418,7 +418,7 @@ export default function InventoryPage() {
                         {prod.name}
                       </p>
                       <p className="text-xs font-medium text-muted-foreground mt-0.5">
-                        SKU: {prod.sku || "—"} • Barras: {prod.barcode || "—"}
+                        Línea: {prod.sku || "—"} • Barras: {prod.barcode || "—"}
                       </p>
                     </td>
                     <td className="px-5 py-4 text-sm text-foreground">
@@ -826,12 +826,12 @@ export default function InventoryPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                  Código SKU
+                  Línea
                 </Label>
                 <Input
                   value={prodSku}
                   onChange={(e) => setProdSku(e.target.value)}
-                  placeholder="Ej. SKU-001"
+                  placeholder="Ej. Accesorios, Calzado, etc."
                   className="rounded-xl h-11"
                 />
               </div>
