@@ -110,9 +110,9 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-950 via-slate-900 to-slate-950 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
       <div className="w-full max-w-md space-y-6">
-        <Card className="border-emerald-500/20 bg-slate-900/90 backdrop-blur-xl shadow-2xl rounded-3xl text-slate-100">
+        <Card className="border border-slate-200/80 bg-white shadow-2xl rounded-3xl text-slate-900">
           <CardHeader className="space-y-4 text-center pb-4 pt-8 px-7">
             <div className="w-full flex items-center justify-center">
               {systemLogoUrl ? (
@@ -124,18 +124,18 @@ export default function LoginPage() {
               ) : !isSystemLoaded ? (
                 <div className="h-24 w-full" />
               ) : (
-                <div className="h-20 w-20 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center">
-                  <ShoppingCart className="h-10 w-10 text-emerald-400" />
+                <div className="h-20 w-20 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                  <ShoppingCart className="h-10 w-10 text-emerald-600" />
                 </div>
               )}
             </div>
             {slugParam && (
               <div className="space-y-1 pt-1">
-                <CardDescription className="text-slate-400 text-sm">
+                <CardDescription className="text-slate-500 text-sm font-medium">
                   Acceso al comercio
                 </CardDescription>
                 {commerceName && (
-                  <p className="text-lg font-black text-emerald-400 leading-snug">
+                  <p className="text-lg font-black text-emerald-600 leading-snug">
                     {commerceName}
                   </p>
                 )}
@@ -151,7 +151,7 @@ export default function LoginPage() {
                   name="username"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-300">
+                      <FormLabel className="text-xs font-black uppercase tracking-wider text-[#0f172a]">
                         Usuario
                       </FormLabel>
                       <FormControl>
@@ -159,12 +159,13 @@ export default function LoginPage() {
                           <UserCheck className="absolute left-3.5 top-3.5 h-5 w-5 text-slate-400" />
                           <Input
                             autoComplete="username"
-                            className="pl-11 h-12 rounded-xl bg-slate-800/80 border-slate-700 text-white focus-visible:ring-emerald-500"
+                            className="pl-11 h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus-visible:ring-emerald-500 focus-visible:border-emerald-500 focus-visible:bg-white"
+                            placeholder="Ingresa tu usuario"
                             {...field}
                           />
                         </div>
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-red-500 text-xs font-semibold" />
                     </FormItem>
                   )}
                 />
@@ -174,7 +175,7 @@ export default function LoginPage() {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-300">
+                      <FormLabel className="text-xs font-black uppercase tracking-wider text-[#0f172a]">
                         Contraseña
                       </FormLabel>
                       <FormControl>
@@ -183,13 +184,14 @@ export default function LoginPage() {
                           <Input
                             type={showPassword ? "text" : "password"}
                             autoComplete="current-password"
-                            className="pl-11 pr-11 h-12 rounded-xl bg-slate-800/80 border-slate-700 text-white focus-visible:ring-emerald-500"
+                            className="pl-11 pr-11 h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus-visible:ring-emerald-500 focus-visible:border-emerald-500 focus-visible:bg-white"
+                            placeholder="Ingresa tu contraseña"
                             {...field}
                           />
                           <button
                             type="button"
                             onClick={() => setShowPassword((prev) => !prev)}
-                            className="absolute right-3.5 top-3.5 text-slate-400 hover:text-slate-200 transition-colors"
+                            className="absolute right-3.5 top-3.5 text-slate-400 hover:text-slate-600 transition-colors"
                             tabIndex={-1}
                           >
                             {showPassword ? (
@@ -200,7 +202,7 @@ export default function LoginPage() {
                           </button>
                         </div>
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-red-500 text-xs font-semibold" />
                     </FormItem>
                   )}
                 />
@@ -208,7 +210,7 @@ export default function LoginPage() {
                 <Button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full h-12 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black text-base shadow-lg shadow-emerald-500/20 transition-all"
+                  className="w-full h-12 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black text-base shadow-lg shadow-emerald-500/20 transition-all cursor-pointer"
                 >
                   {isLoading ? (
                     <Loader2 className="h-5 w-5 animate-spin" />
