@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.env
+*.log
+
+# Ignore user-uploaded branding files but NOT the stable bundled logo
+uploads/branding/*!
+!uploads/branding/logo-stable.png
+!uploads/branding/.gitkeep

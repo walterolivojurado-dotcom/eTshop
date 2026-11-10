@@ -1,0 +1,26 @@
+export const COUNTRIES = [
+  { value: "+57", label: "🇨🇴 Colombia (+57)" },
+  { value: "+52", label: "🇲🇽 México (+52)" },
+  { value: "+1", label: "🇺🇸 Estados Unidos (+1)" },
+  { value: "+34", label: "🇪🇸 España (+34)" },
+  { value: "+54", label: "🇦🇷 Argentina (+54)" },
+  { value: "+56", label: "🇨🇱 Chile (+56)" },
+  { value: "+51", label: "🇵🇪 Perú (+51)" },
+  { value: "+55", label: "🇧🇷 Brasil (+55)" },
+  { value: "+58", label: "🇻🇪 Venezuela (+58)" },
+  { value: "+593", label: "🇪🇨 Ecuador (+593)" },
+  { value: "+502", label: "🇬🇹 Guatemala (+502)" },
+  { value: "+503", label: "🇸🇻 El Salvador (+503)" },
+  { value: "+504", label: "🇭🇳 Honduras (+504)" },
+  { value: "+505", label: "🇳🇮 Nicaragua (+505)" },
+  { value: "+506", label: "🇨🇷 Costa Rica (+506)" },
+  { value: "+507", label: "🇵🇦 Panamá (+507)" },
+  { value: "+1-809", label: "🇩🇴 Rep. Dominicana (+1)" }, // Simplified for search
+  { value: "+598", label: "🇺🇾 Uruguay (+598)" },
+  { value: "+595", label: "🇵🇾 Paraguay (+595)" },
+  { value: "+591", label: "🇧🇴 Bolivia (+591)" },
+  { value: "+44", label: "🇬🇧 Reino Unido (+44)" },
+  { value: "+39", label: "🇮🇹 Italia (+39)" },
+  { value: "+33", label: "🇫🇷 Francia (+33)" },
+  { value: "+49", label: "🇩🇪 Alemania (+49)" }
+];

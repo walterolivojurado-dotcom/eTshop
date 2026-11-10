@@ -1,0 +1,765 @@
+/* --- GOOGLE FONTS PREMIUM --- */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=DM+Serif+Display:ital@0;1&family=Fira+Code:wght@300..700&family=Inter:wght@100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mukta:wght@200;300;400;500;600;700;800&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Outfit:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quicksand:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: var(--font-sans);
+  --font-heading: var(--font-heading);
+  --font-mono: var(--font-geist-mono);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+}
+
+/* --- THEME FALLBACK (Base variables) --- */
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.65 0.24 45);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --radius: 0.625rem;
+  
+  --font-sans: 'Outfit', sans-serif;
+  --font-heading: 'Outfit', sans-serif;
+  
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.65 0.24 45);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.65 0.24 45);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+/* --- THEME DEFINITIONS --- */
+
+/* 1. DEFAULT ELEGANCE (eTambó Orange) */
+.theme-default {
+  --background: oklch(0.99 0.01 90) !important;
+  --foreground: oklch(0.15 0.02 240) !important;
+  --primary: oklch(0.65 0.24 45) !important; /* Naranja eTambó */
+  --primary-foreground: oklch(1 0 0) !important;
+  --accent: oklch(0.85 0.15 85) !important;
+  --font-heading: 'Inter', sans-serif !important;
+  --font-sans: 'Inter', sans-serif !important;
+  --sidebar: oklch(1 0 0) !important;
+  --sidebar-foreground: oklch(0.15 0.02 240) !important;
+  --sidebar-accent: oklch(0.93 0.03 250) !important;
+  --sidebar-accent-foreground: oklch(0.65 0.24 45) !important;
+  --sidebar-border: oklch(0.92 0 0) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 2. SOFT SAKURA */
+.theme-sakura {
+  --background: oklch(0.985 0.01 340) !important;
+  --foreground: oklch(0.3 0.05 340) !important;
+  --card: oklch(0.99 0.01 340) !important;
+  --primary: oklch(0.65 0.2 340) !important;
+  --primary-foreground: oklch(1 0 0) !important;
+  --secondary: oklch(0.94 0.04 340) !important;
+  --accent: oklch(0.95 0.1 120) !important;
+  --font-heading: 'Geist', sans-serif !important;
+  --font-sans: 'Geist', sans-serif !important;
+  --sidebar: oklch(1 0 0) !important;
+  --sidebar-foreground: oklch(0.3 0.05 340) !important;
+  --sidebar-accent: oklch(0.95 0.04 340) !important;
+  --sidebar-accent-foreground: oklch(0.3 0.05 340) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 3. LAVANDA SUAVE */
+.theme-barber {
+  --background: oklch(0.985 0.01 290) !important;
+  --foreground: oklch(0.25 0.06 290) !important;
+  --card: oklch(0.995 0.005 290) !important;
+  --primary: oklch(0.58 0.18 290) !important;
+  --primary-foreground: oklch(1 0 0) !important;
+  --secondary: oklch(0.94 0.06 290) !important;
+  --muted: oklch(0.95 0.04 290) !important;
+  --muted-foreground: oklch(0.5 0.08 290) !important;
+  --accent: oklch(0.9 0.12 290) !important;
+  --border: oklch(0.9 0.06 290) !important;
+  --font-heading: 'Geist', sans-serif !important;
+  --font-sans: 'Geist', sans-serif !important;
+  --sidebar: oklch(1 0 0) !important;
+  --sidebar-foreground: oklch(0.25 0.06 290) !important;
+  --sidebar-accent: oklch(0.94 0.08 290) !important;
+  --sidebar-accent-foreground: oklch(0.58 0.18 290) !important;
+  --sidebar-border: oklch(0.92 0.04 290) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 4. CLEAN MEDICAL */
+.theme-medical {
+  --background: oklch(1 0 0) !important;
+  --foreground: oklch(0.2 0.02 250) !important;
+  --card: oklch(0.99 0.005 240) !important;
+  --primary: oklch(0.55 0.18 240) !important;
+  --primary-foreground: oklch(1 0 0) !important;
+  --secondary: oklch(0.94 0.04 240) !important;
+  --muted: oklch(0.96 0.02 240) !important;
+  --muted-foreground: oklch(0.45 0.05 240) !important;
+  --accent: oklch(0.88 0.12 240) !important;
+  --border: oklch(0.88 0.05 240) !important;
+  --font-heading: 'Inter', sans-serif !important;
+  --font-sans: 'Inter', sans-serif !important;
+  --sidebar: oklch(0.98 0 0) !important;
+  --sidebar-foreground: oklch(0.2 0.02 250) !important;
+  --sidebar-accent: oklch(0.92 0.08 240) !important;
+  --sidebar-accent-foreground: oklch(0.55 0.18 240) !important;
+  --sidebar-border: oklch(0.9 0.03 240) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 6. NATURE FRESH */
+.theme-nature {
+  --background: oklch(0.99 0.01 120) !important;
+  --foreground: oklch(0.15 0.05 140) !important;
+  --card: oklch(1 0.005 120) !important;
+  --primary: oklch(0.4 0.15 140) !important;
+  --primary-foreground: oklch(1 0 0) !important;
+  --secondary: oklch(0.93 0.06 130) !important;
+  --muted: oklch(0.95 0.04 130) !important;
+  --muted-foreground: oklch(0.45 0.07 140) !important;
+  --accent: oklch(0.88 0.12 120) !important;
+  --border: oklch(0.88 0.06 130) !important;
+  --font-heading: 'Work Sans', sans-serif !important;
+  --font-sans: 'Work Sans', sans-serif !important;
+  --sidebar: oklch(1 0 0) !important;
+  --sidebar-foreground: oklch(0.15 0.05 140) !important;
+  --sidebar-accent: oklch(0.92 0.08 135) !important;
+  --sidebar-accent-foreground: oklch(0.4 0.15 140) !important;
+  --sidebar-border: oklch(0.9 0.05 130) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 5. CITRUS FRESCO */
+.theme-midnight {
+  --background: oklch(0.99 0.015 75) !important;
+  --foreground: oklch(0.25 0.07 55) !important;
+  --card: oklch(1 0.01 75) !important;
+  --primary: oklch(0.65 0.2 55) !important;
+  --primary-foreground: oklch(1 0 0) !important;
+  --secondary: oklch(0.95 0.07 75) !important;
+  --muted: oklch(0.96 0.04 75) !important;
+  --muted-foreground: oklch(0.5 0.07 60) !important;
+  --accent: oklch(0.93 0.1 85) !important;
+  --border: oklch(0.9 0.07 75) !important;
+  --font-heading: 'Montserrat', sans-serif !important;
+  --font-sans: 'Montserrat', sans-serif !important;
+  --sidebar: oklch(1 0 0) !important;
+  --sidebar-foreground: oklch(0.25 0.07 55) !important;
+  --sidebar-accent: oklch(0.94 0.1 70) !important;
+  --sidebar-accent-foreground: oklch(0.65 0.2 55) !important;
+  --sidebar-border: oklch(0.92 0.05 65) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 7. CEDRO & MADERA */
+.theme-cyber {
+  --background: oklch(0.99 0.015 60) !important;
+  --foreground: oklch(0.2 0.06 50) !important;
+  --card: oklch(1 0.01 60) !important;
+  --primary: oklch(0.5 0.15 50) !important;
+  --primary-foreground: oklch(1 0 0) !important;
+  --secondary: oklch(0.95 0.06 60) !important;
+  --muted: oklch(0.96 0.04 60) !important;
+  --muted-foreground: oklch(0.5 0.07 50) !important;
+  --accent: oklch(0.88 0.12 70) !important;
+  --border: oklch(0.88 0.07 60) !important;
+  --font-heading: 'Roboto', sans-serif !important;
+  --font-sans: 'Roboto', sans-serif !important;
+  --sidebar: oklch(1 0 0) !important;
+  --sidebar-foreground: oklch(0.2 0.06 50) !important;
+  --sidebar-accent: oklch(0.93 0.08 60) !important;
+  --sidebar-accent-foreground: oklch(0.5 0.15 50) !important;
+  --sidebar-border: oklch(0.9 0.05 55) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 8. VINTAGE ROYAL */
+.theme-vintage {
+  --background: oklch(0.95 0.02 50) !important;
+  --foreground: oklch(0.15 0.02 350) !important;
+  --primary: oklch(0.3 0.1 350) !important;
+  --primary-foreground: oklch(1 0 0) !important;
+  --font-heading: 'Geist', sans-serif !important;
+  --font-sans: 'Geist', sans-serif !important;
+  --sidebar: oklch(1 0 0) !important;
+  --sidebar-foreground: oklch(0.15 0.02 350) !important;
+  --sidebar-accent: oklch(0.9 0.06 350) !important;
+  --sidebar-accent-foreground: oklch(0.3 0.1 350) !important;
+  --sidebar-border: oklch(0.92 0 0) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 9. BLUE HARMONY (NUEVO) */
+.theme-blue-harmony {
+  --background: oklch(0.98 0 0) !important;
+  --foreground: oklch(0.15 0.02 240) !important;
+  --card: oklch(1 0 0) !important;
+  --primary: oklch(0.5 0.2 250) !important;
+  --primary-foreground: oklch(1 0 0) !important;
+  --secondary: oklch(0.92 0.01 240) !important;
+  --muted: oklch(0.9 0 0) !important;
+  --muted-foreground: oklch(0.4 0 0) !important;
+  --border: oklch(0.85 0 0) !important;
+  --accent: oklch(0.2 0.1 240) !important;
+  --font-heading: 'Inter', sans-serif !important;
+  --font-sans: 'Inter', sans-serif !important;
+  --sidebar: oklch(1 0 0) !important;
+  --sidebar-foreground: oklch(0.15 0.02 240) !important;
+  --sidebar-accent: oklch(0.92 0.05 240) !important;
+  --sidebar-accent-foreground: oklch(0.15 0.02 240) !important;
+  --sidebar-border: oklch(0.9 0 0) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 10. CHIC NAILS (Pearl & Rose Gold) */
+.theme-chic-nails {
+  --background: oklch(0.98 0.01 50) !important;
+  --foreground: oklch(0.25 0.05 10) !important;
+  --card: oklch(1 0.01 50) !important;
+  --card-foreground: oklch(0.25 0.05 10) !important;
+  --popover: oklch(1 0.01 50) !important;
+  --popover-foreground: oklch(0.25 0.05 10) !important;
+  --primary: oklch(0.65 0.15 10) !important;
+  --primary-foreground: oklch(1 0 0) !important;
+  --secondary: oklch(0.94 0.04 10) !important;
+  --secondary-foreground: oklch(0.35 0.08 10) !important;
+  --muted: oklch(0.96 0.02 50) !important;
+  --muted-foreground: oklch(0.5 0.05 10) !important;
+  --accent: oklch(0.9 0.1 30) !important;
+  --accent-foreground: oklch(0.2 0.05 30) !important;
+  --border: oklch(0.92 0.04 10) !important;
+  --input: oklch(0.92 0.04 10) !important;
+  --ring: oklch(0.65 0.15 10) !important;
+  --font-heading: 'Montserrat', sans-serif !important;
+  --font-sans: 'Montserrat', sans-serif !important;
+  --sidebar: oklch(1 0 0) !important;
+  --sidebar-foreground: oklch(0.25 0.05 10) !important;
+  --sidebar-accent: oklch(0.92 0.1 10) !important;
+  --sidebar-accent-foreground: oklch(0.25 0.05 10) !important;
+  --sidebar-border: oklch(0.92 0.04 10) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 11. MENTA FRESCA */
+.theme-menta {
+  --background: oklch(0.98 0.015 165) !important;
+  --foreground: oklch(0.2 0.07 165) !important;
+  --card: oklch(0.995 0.008 165) !important;
+  --primary: oklch(0.52 0.18 165) !important;
+  --primary-foreground: oklch(1 0 0) !important;
+  --secondary: oklch(0.93 0.07 165) !important;
+  --muted: oklch(0.94 0.05 165) !important;
+  --muted-foreground: oklch(0.5 0.08 165) !important;
+  --accent: oklch(0.88 0.12 160) !important;
+  --border: oklch(0.88 0.08 165) !important;
+  --font-heading: 'Work Sans', sans-serif !important;
+  --font-sans: 'Work Sans', sans-serif !important;
+  --sidebar: oklch(1 0 0) !important;
+  --sidebar-foreground: oklch(0.2 0.07 165) !important;
+  --sidebar-accent: oklch(0.93 0.09 165) !important;
+  --sidebar-accent-foreground: oklch(0.52 0.18 165) !important;
+  --sidebar-border: oklch(0.9 0.05 165) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 12. DURAZNO CORAL */
+.theme-coral {
+  --background: oklch(0.99 0.01 15) !important;
+  --foreground: oklch(0.25 0.06 15) !important;
+  --card: oklch(1 0.005 15) !important;
+  --primary: oklch(0.65 0.22 20) !important;
+  --primary-foreground: oklch(1 0 0) !important;
+  --secondary: oklch(0.95 0.06 20) !important;
+  --muted: oklch(0.96 0.04 20) !important;
+  --muted-foreground: oklch(0.5 0.07 20) !important;
+  --accent: oklch(0.92 0.1 35) !important;
+  --border: oklch(0.9 0.07 20) !important;
+  --font-heading: 'Montserrat', sans-serif !important;
+  --font-sans: 'Montserrat', sans-serif !important;
+  --sidebar: oklch(1 0 0) !important;
+  --sidebar-foreground: oklch(0.25 0.06 15) !important;
+  --sidebar-accent: oklch(0.94 0.1 20) !important;
+  --sidebar-accent-foreground: oklch(0.65 0.22 20) !important;
+  --sidebar-border: oklch(0.9 0.05 15) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 13. CIELO PASTEL */
+.theme-cielo {
+  --background: oklch(0.985 0.015 225) !important;
+  --foreground: oklch(0.22 0.07 230) !important;
+  --card: oklch(0.995 0.008 225) !important;
+  --primary: oklch(0.6 0.18 230) !important;
+  --primary-foreground: oklch(1 0 0) !important;
+  --secondary: oklch(0.93 0.06 225) !important;
+  --muted: oklch(0.94 0.04 225) !important;
+  --muted-foreground: oklch(0.48 0.08 225) !important;
+  --accent: oklch(0.9 0.1 220) !important;
+  --border: oklch(0.88 0.07 225) !important;
+  --font-heading: 'Work Sans', sans-serif !important;
+  --font-sans: 'Work Sans', sans-serif !important;
+  --sidebar: oklch(1 0 0) !important;
+  --sidebar-foreground: oklch(0.22 0.07 230) !important;
+  --sidebar-accent: oklch(0.93 0.09 225) !important;
+  --sidebar-accent-foreground: oklch(0.6 0.18 230) !important;
+  --sidebar-border: oklch(0.9 0.05 225) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 14. LINO NATURAL */
+.theme-lino {
+  --background: oklch(0.99 0.02 90) !important;
+  --foreground: oklch(0.22 0.05 80) !important;
+  --card: oklch(1 0.01 90) !important;
+  --primary: oklch(0.55 0.12 75) !important;
+  --primary-foreground: oklch(1 0 0) !important;
+  --secondary: oklch(0.94 0.06 90) !important;
+  --muted: oklch(0.95 0.04 90) !important;
+  --muted-foreground: oklch(0.5 0.06 80) !important;
+  --accent: oklch(0.9 0.1 80) !important;
+  --border: oklch(0.88 0.07 85) !important;
+  --font-heading: 'Roboto', sans-serif !important;
+  --font-sans: 'Roboto', sans-serif !important;
+  --sidebar: oklch(1 0 0) !important;
+  --sidebar-foreground: oklch(0.22 0.05 80) !important;
+  --sidebar-accent: oklch(0.93 0.08 85) !important;
+  --sidebar-accent-foreground: oklch(0.55 0.12 75) !important;
+  --sidebar-border: oklch(0.9 0.05 85) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 15. CEREZA PASTEL */
+.theme-cereza {
+  --background: oklch(0.99 0.01 345) !important;
+  --foreground: oklch(0.22 0.06 345) !important;
+  --card: oklch(1 0.005 345) !important;
+  --primary: oklch(0.62 0.22 345) !important;
+  --primary-foreground: oklch(1 0 0) !important;
+  --secondary: oklch(0.95 0.06 345) !important;
+  --muted: oklch(0.96 0.04 345) !important;
+  --muted-foreground: oklch(0.5 0.07 345) !important;
+  --accent: oklch(0.92 0.12 355) !important;
+  --border: oklch(0.9 0.07 345) !important;
+  --font-heading: 'Roboto', sans-serif !important;
+  --font-sans: 'Roboto', sans-serif !important;
+  --sidebar: oklch(1 0 0) !important;
+  --sidebar-foreground: oklch(0.22 0.06 345) !important;
+  --sidebar-accent: oklch(0.94 0.1 345) !important;
+  --sidebar-accent-foreground: oklch(0.62 0.22 345) !important;
+  --sidebar-border: oklch(0.9 0.05 345) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 16. EXECUTIVE NAVY */
+.theme-executive {
+  --background: oklch(0.99 0 0) !important;
+  --foreground: oklch(0.2 0.05 250) !important;
+  --card: oklch(1 0 0) !important;
+  --primary: oklch(0.25 0.08 250) !important;
+  --primary-foreground: oklch(1 0 0) !important;
+  --secondary: oklch(0.95 0.02 250) !important;
+  --muted: oklch(0.96 0.01 250) !important;
+  --muted-foreground: oklch(0.5 0.03 250) !important;
+  --accent: oklch(0.9 0.05 250) !important;
+  --border: oklch(0.92 0.02 250) !important;
+  --font-heading: 'Inter', sans-serif !important;
+  --font-sans: 'Inter', sans-serif !important;
+  --sidebar: oklch(1 0 0) !important;
+  --sidebar-foreground: oklch(0.2 0.05 250) !important;
+  --sidebar-accent: oklch(0.95 0.02 250) !important;
+  --sidebar-accent-foreground: oklch(0.25 0.08 250) !important;
+  --sidebar-border: oklch(0.92 0.02 250) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 17. PURE MINIMALIST */
+.theme-minimalist {
+  --background: oklch(0.98 0 0) !important;
+  --foreground: oklch(0.2 0 0) !important;
+  --card: oklch(1 0 0) !important;
+  --primary: oklch(0.15 0 0) !important;
+  --primary-foreground: oklch(1 0 0) !important;
+  --secondary: oklch(0.95 0 0) !important;
+  --muted: oklch(0.96 0 0) !important;
+  --muted-foreground: oklch(0.5 0 0) !important;
+  --accent: oklch(0.9 0 0) !important;
+  --border: oklch(0.92 0 0) !important;
+  --font-heading: Geist, 'Inter', sans-serif !important;
+  --font-sans: Geist, 'Inter', sans-serif !important;
+  --sidebar: oklch(0.98 0 0) !important;
+  --sidebar-foreground: oklch(0.2 0 0) !important;
+  --sidebar-accent: oklch(0.95 0 0) !important;
+  --sidebar-accent-foreground: oklch(0.15 0 0) !important;
+  --sidebar-border: oklch(0.92 0 0) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 18. MODERN CLINIC */
+.theme-clinic {
+  --background: oklch(1 0 0) !important;
+  --foreground: oklch(0.25 0.02 200) !important;
+  --card: oklch(0.99 0.01 160) !important;
+  --primary: oklch(0.85 0.1 160) !important;
+  --primary-foreground: oklch(0.2 0.05 160) !important;
+  --secondary: oklch(0.96 0.02 160) !important;
+  --muted: oklch(0.97 0.01 160) !important;
+  --muted-foreground: oklch(0.5 0.03 200) !important;
+  --accent: oklch(0.94 0.04 160) !important;
+  --border: oklch(0.92 0.02 160) !important;
+  --font-heading: 'Montserrat', sans-serif !important;
+  --font-sans: 'Montserrat', sans-serif !important;
+  --sidebar: oklch(1 0 0) !important;
+  --sidebar-foreground: oklch(0.25 0.02 200) !important;
+  --sidebar-accent: oklch(0.96 0.02 160) !important;
+  --sidebar-accent-foreground: oklch(0.85 0.1 160) !important;
+  --sidebar-border: oklch(0.94 0.02 160) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 19. LUXURY GOLD */
+.theme-luxury {
+  --background: oklch(0.15 0 0) !important;
+  --foreground: oklch(0.95 0.01 80) !important;
+  --card: oklch(0.2 0 0) !important;
+  --primary: oklch(0.7 0.15 80) !important;
+  --primary-foreground: oklch(0.1 0 0) !important;
+  --secondary: oklch(0.25 0.02 80) !important;
+  --muted: oklch(0.3 0 0) !important;
+  --muted-foreground: oklch(0.7 0.02 80) !important;
+  --accent: oklch(0.3 0.05 80) !important;
+  --border: oklch(0.3 0.02 80) !important;
+  --font-heading: 'Montserrat', sans-serif !important;
+  --font-sans: 'Montserrat', sans-serif !important;
+  --sidebar: oklch(0.15 0 0) !important;
+  --sidebar-foreground: oklch(0.95 0.01 80) !important;
+  --sidebar-accent: oklch(0.25 0.02 80) !important;
+  --sidebar-accent-foreground: oklch(0.7 0.15 80) !important;
+  --sidebar-border: oklch(0.25 0.02 80) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 20. CORPORATE SLATE */
+.theme-corporate {
+  --background: oklch(0.98 0.01 250) !important;
+  --foreground: oklch(0.25 0.05 250) !important;
+  --card: oklch(1 0 0) !important;
+  --primary: oklch(0.45 0.1 260) !important;
+  --primary-foreground: oklch(1 0 0) !important;
+  --secondary: oklch(0.92 0.02 260) !important;
+  --muted: oklch(0.95 0.01 250) !important;
+  --muted-foreground: oklch(0.5 0.03 250) !important;
+  --accent: oklch(0.9 0.04 260) !important;
+  --border: oklch(0.9 0.02 250) !important;
+  --font-heading: 'Work Sans', sans-serif !important;
+  --font-sans: 'Work Sans', sans-serif !important;
+  --sidebar: oklch(0.25 0.05 250) !important;
+  --sidebar-foreground: oklch(0.95 0.01 250) !important;
+  --sidebar-accent: oklch(0.3 0.06 250) !important;
+  --sidebar-accent-foreground: oklch(0.95 0.01 250) !important;
+  --sidebar-border: oklch(0.3 0.06 250) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 21. EMERALD PROFESSIONAL */
+.theme-emerald {
+  --background: oklch(0.99 0.01 100) !important;
+  --foreground: oklch(0.2 0.05 150) !important;
+  --card: oklch(1 0 0) !important;
+  --primary: oklch(0.35 0.1 150) !important;
+  --primary-foreground: oklch(1 0 0) !important;
+  --secondary: oklch(0.95 0.02 150) !important;
+  --muted: oklch(0.95 0.01 120) !important;
+  --muted-foreground: oklch(0.5 0.03 150) !important;
+  --accent: oklch(0.9 0.05 150) !important;
+  --border: oklch(0.9 0.02 150) !important;
+  --font-heading: 'Inter', sans-serif !important;
+  --font-sans: 'Inter', sans-serif !important;
+  --sidebar: oklch(1 0 0) !important;
+  --sidebar-foreground: oklch(0.2 0.05 150) !important;
+  --sidebar-accent: oklch(0.95 0.02 150) !important;
+  --sidebar-accent-foreground: oklch(0.35 0.1 150) !important;
+  --sidebar-border: oklch(0.9 0.02 150) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 22. DEEP AMETHYST */
+.theme-amethyst {
+  --background: oklch(0.99 0.01 300) !important;
+  --foreground: oklch(0.2 0.05 300) !important;
+  --card: oklch(1 0 0) !important;
+  --primary: oklch(0.3 0.15 300) !important;
+  --primary-foreground: oklch(1 0 0) !important;
+  --secondary: oklch(0.95 0.05 300) !important;
+  --muted: oklch(0.96 0.02 300) !important;
+  --muted-foreground: oklch(0.5 0.08 300) !important;
+  --accent: oklch(0.9 0.08 300) !important;
+  --border: oklch(0.9 0.04 300) !important;
+  --font-heading: 'Work Sans', sans-serif !important;
+  --font-sans: 'Work Sans', sans-serif !important;
+  --sidebar: oklch(1 0 0) !important;
+  --sidebar-foreground: oklch(0.2 0.05 300) !important;
+  --sidebar-accent: oklch(0.95 0.05 300) !important;
+  --sidebar-accent-foreground: oklch(0.3 0.15 300) !important;
+  --sidebar-border: oklch(0.9 0.04 300) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 23. COFFEE & CREAM */
+.theme-coffee {
+  --background: oklch(0.98 0.02 80) !important;
+  --foreground: oklch(0.25 0.05 50) !important;
+  --card: oklch(0.99 0.01 80) !important;
+  --primary: oklch(0.35 0.08 50) !important;
+  --primary-foreground: oklch(0.95 0.02 80) !important;
+  --secondary: oklch(0.94 0.04 70) !important;
+  --muted: oklch(0.95 0.02 80) !important;
+  --muted-foreground: oklch(0.5 0.05 60) !important;
+  --accent: oklch(0.9 0.06 70) !important;
+  --border: oklch(0.9 0.03 70) !important;
+  --font-heading: 'Roboto', sans-serif !important;
+  --font-sans: 'Roboto', sans-serif !important;
+  --sidebar: oklch(0.35 0.08 50) !important;
+  --sidebar-foreground: oklch(0.95 0.02 80) !important;
+  --sidebar-accent: oklch(0.4 0.08 50) !important;
+  --sidebar-accent-foreground: oklch(0.98 0.02 80) !important;
+  --sidebar-border: oklch(0.3 0.06 50) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 24. ARCTIC SILVER */
+.theme-arctic {
+  --background: oklch(0.98 0.005 240) !important;
+  --foreground: oklch(0.3 0.02 240) !important;
+  --card: oklch(1 0 0) !important;
+  --primary: oklch(0.85 0.05 240) !important;
+  --primary-foreground: oklch(0.2 0.05 240) !important;
+  --secondary: oklch(0.95 0.01 240) !important;
+  --muted: oklch(0.96 0.005 240) !important;
+  --muted-foreground: oklch(0.5 0.02 240) !important;
+  --accent: oklch(0.92 0.02 240) !important;
+  --border: oklch(0.92 0.01 240) !important;
+  --font-heading: 'Roboto', sans-serif !important;
+  --font-sans: 'Roboto', sans-serif !important;
+  --sidebar: oklch(1 0 0) !important;
+  --sidebar-foreground: oklch(0.3 0.02 240) !important;
+  --sidebar-accent: oklch(0.95 0.01 240) !important;
+  --sidebar-accent-foreground: oklch(0.85 0.05 240) !important;
+  --sidebar-border: oklch(0.92 0.01 240) !important;
+  --radius: 0.5rem !important;
+}
+
+/* 25. BOUTIQUE WINE */
+.theme-wine {
+  --background: oklch(0.99 0.01 10) !important;
+  --foreground: oklch(0.2 0.02 10) !important;
+  --card: oklch(1 0 0) !important;
+  --primary: oklch(0.3 0.1 10) !important;
+  --primary-foreground: oklch(0.98 0.01 10) !important;
+  --secondary: oklch(0.95 0.02 10) !important;
+  --muted: oklch(0.96 0.01 10) !important;
+  --muted-foreground: oklch(0.5 0.03 10) !important;
+  --accent: oklch(0.9 0.04 10) !important;
+  --border: oklch(0.9 0.02 10) !important;
+  --font-heading: 'Geist', sans-serif !important;
+  --font-sans: 'Geist', sans-serif !important;
+  --sidebar: oklch(1 0 0) !important;
+  --sidebar-foreground: oklch(0.2 0.02 10) !important;
+  --sidebar-accent: oklch(0.95 0.02 10) !important;
+  --sidebar-accent-foreground: oklch(0.3 0.1 10) !important;
+  --sidebar-border: oklch(0.9 0.02 10) !important;
+  --radius: 0.5rem !important;
+}
+
+@layer base {
+  * { @apply border-border outline-ring/50; }
+  body { 
+    @apply bg-background text-foreground; 
+    letter-spacing: 0.02em;
+    font-weight: 300; /* Premium Light Weight */
+  }
+  html { @apply font-sans; }
+  
+  /* Soft Shadows Constraint */
+  .bg-card, .card {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04) !important;
+    border-color: rgba(0, 0, 0, 0.05) !important;
+  }
+
+  /* --- GLOBAL INTERACTIVE CURSOR --- */
+  button:not(:disabled),
+  button:not(:disabled) *,
+  a,
+  a *,
+  select:not(:disabled),
+  option,
+  summary,
+  label[for],
+  input[type="button"]:not(:disabled),
+  input[type="submit"]:not(:disabled),
+  input[type="reset"]:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled),
+  input[type="file"]:not(:disabled),
+  input[type="date"]:not(:disabled),
+  input[type="time"]:not(:disabled),
+  input[type="datetime-local"]:not(:disabled),
+  input[type="month"]:not(:disabled),
+  input[type="week"]:not(:disabled),
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  [role="button"]:not([aria-disabled="true"]):not([data-disabled]),
+  [role="button"]:not([aria-disabled="true"]):not([data-disabled]) *,
+  [role="switch"]:not([aria-disabled="true"]):not([data-disabled]),
+  [role="checkbox"]:not([aria-disabled="true"]):not([data-disabled]),
+  [role="radio"]:not([aria-disabled="true"]):not([data-disabled]),
+  [role="menuitem"]:not([aria-disabled="true"]):not([data-disabled]),
+  [role="option"]:not([aria-disabled="true"]):not([data-disabled]),
+  [role="tab"]:not([aria-disabled="true"]):not([data-disabled]),
+  [role="combobox"]:not([aria-disabled="true"]):not([data-disabled]),
+  [data-slot="button"]:not(:disabled):not([data-disabled]),
+  [data-slot="button"]:not(:disabled):not([data-disabled]) *,
+  [data-slot="switch"]:not([data-disabled]),
+  [data-slot="switch"]:not([data-disabled]) *,
+  [data-slot="select-trigger"]:not([data-disabled]),
+  [data-slot="select-item"]:not([data-disabled]),
+  [data-slot="dropdown-menu-trigger"]:not([data-disabled]),
+  [data-slot="dropdown-menu-item"]:not([data-disabled]),
+  [data-slot="sidebar-menu-button"]:not([data-disabled]),
+  [data-slot="dialog-close"]:not([data-disabled]),
+  [data-slot="calendar"] button:not(:disabled),
+  .cursor-pointer,
+  .cursor-pointer *,
+  .hover\:bg-muted,
+  .hover\:text-primary {
+    cursor: pointer !important;
+  }
+
+  /* --- MOBILE FIRST OVERRIDES --- */
+  @media (max-width: 768px) {
+    /* Base scaling for mobile density */
+    html {
+      font-size: 14px;
+    }
+
+    /* Touch Targets */
+    button, 
+    .button,
+    input,
+    select {
+      min-height: 44px !important; /* Slightly more compact than 48px but still accessible */
+    }
+
+    /* Prevent Horizontal Scroll */
+    html, body {
+      overflow-x: hidden !important;
+      position: relative;
+      width: 100%;
+    }
+
+    /* Card Table Utility */
+    .responsive-table {
+      @apply block w-full;
+    }
+    .responsive-table thead {
+      @apply hidden;
+    }
+
+    .responsive-table tbody, 
+    .responsive-table tr {
+      @apply block w-full;
+    }
+    .responsive-table tr {
+      @apply mb-4 bg-card border border-border rounded-[20px] p-3 shadow-sm;
+    }
+    .responsive-table td {
+      @apply flex items-center justify-between py-1.5 border-b border-border/10 last:border-0 px-0;
+      min-height: auto !important;
+    }
+    .responsive-table td:before {
+      content: attr(data-label);
+      @apply text-[8px] font-black uppercase text-muted-foreground tracking-widest mr-4;
+    }
+  }
+
+  /* --- GLOBAL COMPACTNESS (EXECUTIVE DESIGN) --- */
+  @media (min-width: 769px) {
+    html {
+      font-size: 15px; /* Base reduction from default 16px */
+    }
+    .card-content-compact {
+      @apply p-4;
+    }
+  }
+
+  /* Global Typography Smoothing */
+  h1, h2, h3, h4, h5, h6 { 
+    @apply font-heading; 
+    letter-spacing: 0.05em !important;
+    font-weight: 600 !important; /* Semi-Bold Corporate Standard */
+    line-height: 1.1;
+  }
+}
