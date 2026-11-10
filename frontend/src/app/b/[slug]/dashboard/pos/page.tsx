@@ -154,7 +154,7 @@ export default function PosTerminalPage() {
         {
           productId: product.id,
           name: product.name,
-          sku: product.sku || product.barcode,
+          sku: product.sku || undefined,
           unitPrice: Number(product.salePrice),
           stock: Number(product.stock),
           unit: product.unit || "UND",
@@ -464,7 +464,7 @@ export default function PosTerminalPage() {
                     type="button"
                     disabled={outOfStock}
                     onClick={() => addToCart(product)}
-                    className={`group text-left p-3.5 rounded-2xl border-2 transition-all flex flex-col justify-between min-h-[138px] relative overflow-hidden ${
+                    className={`group text-left p-3.5 rounded-2xl border-2 transition-all flex flex-col justify-between min-h-[148px] relative overflow-hidden ${
                       outOfStock
                         ? "opacity-50 bg-muted/40 border-border cursor-not-allowed"
                         : inCart
@@ -474,8 +474,8 @@ export default function PosTerminalPage() {
                   >
                     <div>
                       <div className="flex items-center justify-between gap-1 mb-1.5">
-                        <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-md bg-muted text-muted-foreground truncate">
-                          {product.brand ? product.brand : (product.sku || product.barcode || "SIN-SKU")}
+                        <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-md bg-muted text-muted-foreground truncate max-w-[120px]">
+                          {product.brand ? product.brand : (product.barcode || "GENERAL")}
                         </span>
                         {inCart && (
                           <span className="h-5 min-w-5 px-1.5 rounded-full bg-emerald-500 text-slate-950 font-black text-[11px] flex items-center justify-center">
@@ -486,6 +486,16 @@ export default function PosTerminalPage() {
                       <h3 className="font-bold text-xs sm:text-sm leading-snug line-clamp-2 text-foreground">
                         {product.name}
                       </h3>
+                      {product.sku && (
+                        <div className="mt-1 flex items-center gap-1 text-[11px] font-medium text-muted-foreground">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                            Línea:
+                          </span>
+                          <span className="font-semibold text-foreground/90 truncate">
+                            {product.sku}
+                          </span>
+                        </div>
+                      )}
                     </div>
 
                     <div className="pt-2.5 mt-2 border-t border-border/50 flex items-end justify-between gap-1">
@@ -586,6 +596,11 @@ export default function PosTerminalPage() {
                     >
                       <div className="min-w-0 flex-1">
                         <p className="text-xs font-bold truncate">{item.name}</p>
+                        {item.sku && (
+                          <p className="text-[10px] text-muted-foreground truncate">
+                            <span className="font-semibold text-emerald-600 dark:text-emerald-400">Línea:</span> {item.sku}
+                          </p>
+                        )}
                         <p className="text-[11px] text-muted-foreground">
                           ${formatNumber(item.unitPrice)} c/u
                         </p>
