@@ -372,38 +372,71 @@ export default function PosTerminalPage() {
               )}
             </div>
 
-            {/* Filtro rápido por Categorías */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-1">
-              <Button
+            {/* Filtro por Categorías (Distribución envolvente y directa sin barra de scroll) */}
+            <div className="flex flex-wrap items-center gap-2 pt-1">
+              <button
                 type="button"
-                size="sm"
-                variant={selectedCategory === "ALL" ? "default" : "outline"}
                 onClick={() => setSelectedCategory("ALL")}
-                className={`rounded-xl font-bold shrink-0 ${
+                className={`cursor-pointer inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold border transition-all ${
                   selectedCategory === "ALL"
-                    ? "bg-emerald-500 hover:bg-emerald-600 text-slate-950"
-                    : ""
+                    ? "bg-emerald-500 hover:bg-emerald-600 text-slate-950 border-emerald-500 shadow-sm"
+                    : "bg-background hover:bg-muted text-foreground border-border/80 hover:border-emerald-500/50"
                 }`}
               >
-                Todos ({products.length})
-              </Button>
-              {categories.map((cat) => (
-                <Button
-                  key={cat.id}
-                  type="button"
-                  size="sm"
-                  variant={selectedCategory === cat.id ? "default" : "outline"}
-                  onClick={() => setSelectedCategory(cat.id)}
-                  className="rounded-xl font-bold shrink-0"
-                  style={
-                    selectedCategory === cat.id
-                      ? { backgroundColor: cat.color || "#10b981", color: "#fff" }
-                      : {}
-                  }
+                <span>Todos</span>
+                <span
+                  className={`px-2 py-0.5 rounded-full text-[11px] font-black ${
+                    selectedCategory === "ALL"
+                      ? "bg-slate-950/20 text-slate-950"
+                      : "bg-muted text-muted-foreground"
+                  }`}
                 >
-                  {cat.name}
-                </Button>
-              ))}
+                  {products.length}
+                </span>
+              </button>
+
+              {categories.map((cat) => {
+                const isSelected = selectedCategory === cat.id;
+                const catCount = products.filter((p) => p.categoryId === cat.id).length;
+                return (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    onClick={() => setSelectedCategory(cat.id)}
+                    className={`cursor-pointer inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold border transition-all ${
+                      isSelected
+                        ? "shadow-sm text-white font-bold"
+                        : "bg-background hover:bg-muted text-foreground border-border/80 hover:border-emerald-500/50"
+                    }`}
+                    style={
+                      isSelected
+                        ? {
+                            backgroundColor: cat.color || "#10b981",
+                            borderColor: cat.color || "#10b981",
+                            color: "#ffffff",
+                          }
+                        : {}
+                    }
+                  >
+                    <span
+                      className="h-2.5 w-2.5 rounded-full shrink-0"
+                      style={{ backgroundColor: cat.color || "#10b981" }}
+                    />
+                    <span>{cat.name}</span>
+                    {catCount > 0 && (
+                      <span
+                        className={`px-1.5 py-0.5 rounded-full text-[11px] ${
+                          isSelected
+                            ? "bg-black/25 text-white font-bold"
+                            : "bg-muted text-muted-foreground font-normal"
+                        }`}
+                      >
+                        {catCount}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
