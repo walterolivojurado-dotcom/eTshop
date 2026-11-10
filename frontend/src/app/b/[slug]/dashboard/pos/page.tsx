@@ -247,11 +247,29 @@ export default function PosTerminalPage() {
       return;
     }
 
-    if (paymentMethod === "CASH" && received < total) {
-      toast.error(
-        `El efectivo recibido ($${formatNumber(received)}) es menor al total ($${formatNumber(total)})`
-      );
+    if (!customerName.trim()) {
+      toast.error("El campo Cliente es obligatorio");
+      const clientInput = document.getElementById("pos-customer-name-input");
+      if (clientInput) clientInput.focus();
       return;
+    }
+
+    if (paymentMethod === "CASH") {
+      if (!amountReceived || Number(amountReceived) <= 0) {
+        toast.error("El campo Efectivo Recibido es obligatorio para pagos en efectivo");
+        const cashInput = document.getElementById("pos-amount-received-input");
+        if (cashInput) cashInput.focus();
+        return;
+      }
+
+      if (received < total) {
+        toast.error(
+          `El efectivo recibido ($${formatNumber(received)}) es menor al total ($${formatNumber(total)})`
+        );
+        const cashInput = document.getElementById("pos-amount-received-input");
+        if (cashInput) cashInput.focus();
+        return;
+      }
     }
 
     setIsProcessing(true);
@@ -555,25 +573,34 @@ export default function PosTerminalPage() {
               {/* Datos rápidos del cliente */}
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <Label className="text-[10px] uppercase font-bold text-muted-foreground">
-                    Cliente
+                  <Label className="text-[10px] uppercase font-bold text-muted-foreground flex items-center gap-1">
+                    <span>Cliente</span>
+                    <span className="text-red-500 font-black">*</span>
                   </Label>
                   <div className="relative mt-1">
                     <User className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-muted-foreground" />
                     <Input
+                      id="pos-customer-name-input"
                       value={customerName}
                       onChange={(e) => setCustomerName(e.target.value)}
-                      className="pl-8 h-9 text-xs rounded-xl"
+                      placeholder="Obligatorio *"
+                      className={`pl-8 h-9 text-xs rounded-xl ${
+                        !customerName.trim() && cart.length > 0
+                          ? "border-amber-500/60 focus-visible:ring-amber-500"
+                          : ""
+                      }`}
                     />
                   </div>
                 </div>
                 <div>
-                  <Label className="text-[10px] uppercase font-bold text-muted-foreground">
-                    Cédula / NIT
+                  <Label className="text-[10px] uppercase font-bold text-muted-foreground flex items-center justify-between">
+                    <span>Cédula / NIT</span>
+                    <span className="text-[9px] font-normal text-muted-foreground/70 lowercase">(opcional)</span>
                   </Label>
                   <Input
                     value={customerDoc}
                     onChange={(e) => setCustomerDoc(e.target.value)}
+                    placeholder="Opcional"
                     className="mt-1 h-9 text-xs rounded-xl"
                   />
                 </div>
@@ -693,12 +720,15 @@ export default function PosTerminalPage() {
                 <div className="space-y-2 p-3 rounded-2xl bg-muted/30 border border-border">
                   <div className="grid grid-cols-2 gap-2">
                     <div>
-                      <Label className="text-[10px] uppercase font-bold text-muted-foreground">
-                        Efectivo Recibido
+                      <Label className="text-[10px] uppercase font-bold text-muted-foreground flex items-center gap-1">
+                        <span>Efectivo Recibido</span>
+                        <span className="text-red-500 font-black">*</span>
                       </Label>
                       <Input
+                        id="pos-amount-received-input"
                         type="text"
                         inputMode="numeric"
+                        placeholder="Obligatorio *"
                         value={
                           amountReceived !== ""
                             ? formatNumber(amountReceived)
@@ -708,7 +738,11 @@ export default function PosTerminalPage() {
                           const raw = e.target.value.replace(/\D/g, "");
                           setAmountReceived(raw);
                         }}
-                        className="mt-1 h-10 font-black text-base rounded-xl"
+                        className={`mt-1 h-10 font-black text-base rounded-xl ${
+                          (!amountReceived || Number(amountReceived) <= 0) && cart.length > 0
+                            ? "border-amber-500/60 focus-visible:ring-amber-500"
+                            : ""
+                        }`}
                       />
                     </div>
                     <div>
