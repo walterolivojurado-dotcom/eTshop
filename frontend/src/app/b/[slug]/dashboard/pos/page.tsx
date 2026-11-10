@@ -78,7 +78,7 @@ export default function PosTerminalPage() {
   const [customerDoc, setCustomerDoc] = useState("");
   const [paymentMethod, setPaymentMethod] = useState<"CASH" | "CARD" | "TRANSFER">("CASH");
   const [amountReceived, setAmountReceived] = useState<string>("");
-  const [discountAmount, setDiscountAmount] = useState<string>("0");
+  const [discountAmount, setDiscountAmount] = useState<string>("");
   const [isProcessing, setIsProcessing] = useState(false);
 
   // Modal de Recibo / Ticket generado
@@ -292,7 +292,7 @@ export default function PosTerminalPage() {
       setCompletedSale(sale);
       setCart([]);
       setAmountReceived("");
-      setDiscountAmount("0");
+      setDiscountAmount("");
       setCustomerName("");
       setCustomerDoc("");
       toast.success(`¡Venta ${sale.saleNumber} registrada y stock actualizado!`);
@@ -583,7 +583,6 @@ export default function PosTerminalPage() {
                       id="pos-customer-name-input"
                       value={customerName}
                       onChange={(e) => setCustomerName(e.target.value)}
-                      placeholder="Obligatorio *"
                       className={`pl-8 h-9 text-xs rounded-xl ${
                         !customerName.trim() && cart.length > 0
                           ? "border-amber-500/60 focus-visible:ring-amber-500"
@@ -600,7 +599,6 @@ export default function PosTerminalPage() {
                   <Input
                     value={customerDoc}
                     onChange={(e) => setCustomerDoc(e.target.value)}
-                    placeholder="Opcional"
                     className="mt-1 h-9 text-xs rounded-xl"
                   />
                 </div>
@@ -728,7 +726,7 @@ export default function PosTerminalPage() {
                         id="pos-amount-received-input"
                         type="text"
                         inputMode="numeric"
-                        placeholder="Obligatorio *"
+                        placeholder="$0"
                         value={
                           amountReceived !== ""
                             ? formatNumber(amountReceived)
@@ -738,7 +736,7 @@ export default function PosTerminalPage() {
                           const raw = e.target.value.replace(/\D/g, "");
                           setAmountReceived(raw);
                         }}
-                        className={`mt-1 h-10 font-black text-base rounded-xl ${
+                        className={`mt-1 h-10 font-black text-base rounded-xl placeholder:font-normal placeholder:text-muted-foreground/60 ${
                           (!amountReceived || Number(amountReceived) <= 0) && cart.length > 0
                             ? "border-amber-500/60 focus-visible:ring-amber-500"
                             : ""
@@ -752,6 +750,7 @@ export default function PosTerminalPage() {
                       <Input
                         type="text"
                         inputMode="numeric"
+                        placeholder="$0"
                         value={
                           discountAmount !== ""
                             ? formatNumber(discountAmount)
@@ -759,9 +758,9 @@ export default function PosTerminalPage() {
                         }
                         onChange={(e) => {
                           const raw = e.target.value.replace(/\D/g, "");
-                          setDiscountAmount(raw || "0");
+                          setDiscountAmount(raw);
                         }}
-                        className="mt-1 h-10 font-bold text-sm rounded-xl"
+                        className="mt-1 h-10 font-bold text-sm rounded-xl placeholder:font-normal placeholder:text-muted-foreground/60"
                       />
                     </div>
                   </div>
