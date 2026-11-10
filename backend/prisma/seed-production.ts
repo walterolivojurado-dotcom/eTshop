@@ -4,67 +4,91 @@ import bcrypt from 'bcryptjs';
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Iniciando seed de producción...');
+  console.log('🌱 Ejecutando seed de producción para eTshop...');
 
-  // 1. Check if SUPERADMIN already exists
-  const existing = await prisma.user.findFirst({ where: { role: Role.SUPERADMIN } });
-  if (existing) {
-    console.log('✅ SUPERADMIN ya existe:', existing.email);
-    
-    // Check if platform business exists
-    const biz = await prisma.business.findUnique({ where: { slug: 'calenbaq' } });
-    if (!biz) {
-      await prisma.business.create({
-        data: {
-          slug: 'calenbaq',
-          name: 'CalenBaq Pro',
-          companyName: 'CalenBaq Pro',
-          ownerId: existing.id,
-          isActive: true,
-          settings: { theme: 'beutsmile' },
-        }
-      });
-      console.log('✅ Negocio de plataforma (calenbaq) creado.');
-    } else {
-      console.log('✅ Negocio de plataforma ya existe:', biz.slug);
-    }
-    return;
+  const defaultUsername = process.env.SUPERADMIN_USERNAME || 'superadmin';
+  const defaultEmail = process.env.SUPERADMIN_EMAIL || 'admin@etshop.com';
+  const defaultPhone = process.env.SUPERADMIN_PHONE || '1143225890';
+  const defaultPassword = process.env.SUPERADMIN_PASSWORD || 'eTshop2026!';
+
+  const salt = await bcrypt.genSalt(10);
+  const passwordHash = await bcrypt.hash(defaultPassword, salt);
+
+  // 1. Buscar o inicializar SuperAdmin
+  let superadmin = await prisma.user.findFirst({
+    where: {
+      OR: [
+        { role: Role.SUPERADMIN },
+        { username: defaultUsername },
+      ],
+    },
+  });
+
+  if (superadmin) {
+    console.log(`ℹ️ SuperAdmin existente detectado: ${superadmin.username}. Actualizando credenciales...`);
+    await prisma.user.update({
+      where: { id: superadmin.id },
+      data: {
+        username: defaultUsername,
+        name: 'SuperAdmin eTshop',
+        email: defaultEmail,
+        phone: defaultPhone,
+        passwordHash,
+        role: Role.SUPERADMIN,
+        isActive: true,
+        companyId: null,
+      },
+    });
+  } else {
+    console.log('🌱 Creando usuario SuperAdmin por defecto...');
+    superadmin = await prisma.user.create({
+      data: {
+        name: 'SuperAdmin eTshop',
+        username: defaultUsername,
+        email: defaultEmail,
+        phone: defaultPhone,
+        phoneCode: '+57',
+        passwordHash,
+        role: Role.SUPERADMIN,
+        isActive: true,
+        companyId: null,
+      },
+    });
   }
 
-  // 2. Create SUPERADMIN
-  const salt = await bcrypt.genSalt(10);
-  const passwordHash = await bcrypt.hash('CalenBaq2026!', salt);
+  // 2. Módulos base requeridos por el sistema
+  const systemModules = [
+    { code: 'pos', name: 'Punto de Venta (POS / Caja)', description: 'Terminal de caja para registrar ventas rápidas.', icon: 'ShoppingCart', isCore: true, sortOrder: 1 },
+    { code: 'inventario', name: 'Gestión de Inventario y Stock', description: 'Control de existencias, kardex y alertas.', icon: 'Package', isCore: true, sortOrder: 2 },
+    { code: 'categorias', name: 'Categorías de Productos', description: 'Familias de productos para el POS.', icon: 'Tags', isCore: false, sortOrder: 3 },
+    { code: 'ventas', name: 'Historial y Arqueo de Ventas', description: 'Registro de transacciones y cierres.', icon: 'Receipt', isCore: true, sortOrder: 4 },
+    { code: 'usuarios', name: 'Usuarios y Cajeros', description: 'Gestión de personal por comercio.', icon: 'Users', isCore: false, sortOrder: 5 },
+    { code: 'modulos', name: 'Roles, Módulos y Permisos', description: 'Perfiles de acceso y permisos granulares.', icon: 'ShieldCheck', isCore: false, sortOrder: 6 },
+    { code: 'analitica', name: 'Analítica y Reportes BI', description: 'Reportes ejecutivos y ventas.', icon: 'BarChart2', isCore: false, sortOrder: 7 },
+    { code: 'configuracion', name: 'Configuración del Comercio', description: 'Datos fiscales, logo e impuestos.', icon: 'Settings', isCore: true, sortOrder: 8 },
+  ];
 
-  const superadmin = await prisma.user.create({
-    data: {
-      name: 'Super Admin',
-      email: 'admin@calenbaq.com',
-      phone: '3000000000',
-      passwordHash,
-      role: Role.SUPERADMIN,
-      isActive: true,
-    }
-  });
-  console.log('✅ SUPERADMIN creado:', superadmin.email);
+  for (const mod of systemModules) {
+    await prisma.module.upsert({
+      where: { code: mod.code },
+      update: { name: mod.name, description: mod.description, icon: mod.icon, isCore: mod.isCore, sortOrder: mod.sortOrder },
+      create: mod,
+    });
+  }
 
-  // 3. Create platform business
-  await prisma.business.create({
-    data: {
-      slug: 'calenbaq',
-      name: 'CalenBaq Pro',
-      companyName: 'CalenBaq Pro',
-      ownerId: superadmin.id,
-      isActive: true,
-      settings: { theme: 'beutsmile' },
-    }
-  });
-  console.log('✅ Negocio de plataforma (calenbaq) creado.');
-  console.log('');
-  console.log('🎉 Seed completado. Credenciales de acceso:');
-  console.log('   Email:    admin@calenbaq.com');
-  console.log('   Password: CalenBaq2026!');
+  console.log('✅ Inicialización completada exitosamente.');
+  console.log('🛡️ Producción inicia completamente limpia: 0 comercios, 0 inventario.');
+  console.log('🔑 Credenciales:');
+  console.log(`   - Username: ${defaultUsername}`);
+  console.log(`   - Celular:  ${defaultPhone}`);
+  console.log(`   - Password: ${defaultPassword}`);
 }
 
 main()
-  .catch((e) => { console.error(e); process.exit(1); })
-  .finally(() => prisma.$disconnect());
+  .catch((e) => {
+    console.error('❌ Error en seed:', e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });

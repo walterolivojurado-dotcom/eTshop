@@ -32,9 +32,22 @@ export async function seedInitialPlatformData() {
       },
     });
     logger.info('✅ SuperAdmin creado: username="superadmin" / pass="eTshop2026!"');
+  } else {
+    logger.info(`ℹ️ SuperAdmin verificado: username="${superAdmin.username}" (role: SUPERADMIN)`);
   }
 
-  // 2. Crear comercio demo si aún no hay ninguno
+  // 2. Control estricto de ambiente de Producción:
+  // En entornos de producción (o si SEED_DEMO_DATA !== 'true'), NO se crean empresas,
+  // usuarios secundarios, categorías, inventarios ni ventas de prueba.
+  const isProduction = process.env.NODE_ENV === 'production';
+  const shouldSeedDemo = !isProduction && process.env.SEED_DEMO_DATA === 'true';
+
+  if (!shouldSeedDemo) {
+    logger.info('🛡️ Producción / Despliegue Limpio: Base de datos inicializada sin datos de prueba. Listo para crear comercios.');
+    return;
+  }
+
+  // 3. Crear comercio demo únicamente si se encuentra explícitamente habilitado para pruebas/desarrollo
   const demoSlug = 'miscelanea-central';
   let demoCompany = await prisma.company.findUnique({
     where: { slug: demoSlug },

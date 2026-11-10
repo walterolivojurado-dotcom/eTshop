@@ -11,8 +11,14 @@
     "db:generate": "npx prisma generate",
     "db:migrate": "npx prisma migrate dev",
     "db:migrate:prod": "npx prisma migrate deploy",
+    "db:seed": "tsx prisma/seed-production.ts",
+    "db:seed:superadmin": "tsx scripts/seed-production-superadmin.ts",
+    "seed:prod": "tsx scripts/seed-production-superadmin.ts",
     "db:studio": "npx prisma studio",
     "db:reset": "npx prisma migrate reset"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed-production.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.14.0",

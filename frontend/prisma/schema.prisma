@@ -206,7 +206,7 @@ model Sale {
   total          Decimal       @default(0.00) @db.Decimal(12, 2)
   paymentMethod  PaymentMethod @default(CASH) @map("payment_method")
   amountReceived Decimal       @default(0.00) @map("amount_received") @db.Decimal(12, 2)
-  changeAmount   Decimal       @default(0.00) @db.Decimal(12, 2)
+  changeAmount   Decimal       @default(0.00) @map("change_amount") @db.Decimal(12, 2)
   status         SaleStatus    @default(COMPLETED)
   notes          String?
   createdAt      DateTime      @default(now()) @map("created_at") @db.Timestamptz(6)
