@@ -20,8 +20,8 @@ const DEFAULT_BRANDING: BrandingData = {
 };
 
 /**
- * Actualiza el atributo `href` de los `<link rel="icon">` existentes SIN eliminarlos del DOM,
- * evitando el error `Cannot read properties of null (reading 'removeChild')` de React 19 / Next.js 16.
+ * Actualiza el atributo `href` de los `<link rel="icon">` de la pestaña del navegador
+ * SIN eliminar los elementos del DOM y SIN sobreescribir los iconos de app móvil (apple-touch-icon).
  */
 export function applyDynamicFavicon(rawFaviconUrl?: string | null, fallbackSlug = "etshop") {
   if (typeof document === "undefined") return;
@@ -30,7 +30,11 @@ export function applyDynamicFavicon(rawFaviconUrl?: string | null, fallbackSlug 
     (rawFaviconUrl ? getFileUrl(rawFaviconUrl) : null) ||
     `${API_URL}/settings/favicon?slug=${encodeURIComponent(fallbackSlug)}&t=${Date.now()}`;
 
-  const existingIcons = document.querySelectorAll<HTMLLinkElement>("link[rel*='icon']");
+  // Seleccionar únicamente el favicon de pestaña (rel="icon" sin sizes o rel="shortcut icon"),
+  // excluyendo explícitamente apple-touch-icon y los iconos de PWA para no alterar el icono de la app en móviles.
+  const existingIcons = document.querySelectorAll<HTMLLinkElement>(
+    "link[rel='shortcut icon'], link[rel='icon']:not([rel*='apple']):not([sizes])"
+  );
   if (existingIcons.length > 0) {
     existingIcons.forEach((link) => {
       link.href = resolvedUrl;

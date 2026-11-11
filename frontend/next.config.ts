@@ -10,7 +10,7 @@ const withPWA = withPWAInit({
   workboxOptions: {
     skipWaiting: true,
     clientsClaim: true,
-    cacheId: 'etshop-v1.0.1',
+    cacheId: 'etshop-v1.0.2',
     exclude: [
       /\/_next\/static\/.*(?<!\.p)\.woff2/,
       /\.map$/,
