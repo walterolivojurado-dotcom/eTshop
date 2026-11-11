@@ -546,36 +546,65 @@ export default function SalesHistoryPage() {
 
       {/* Modal de Detalle de Venta */}
       <Dialog open={!!selectedSale} onOpenChange={() => setSelectedSale(null)}>
-        <DialogContent className="sm:max-w-lg rounded-3xl">
+        <DialogContent className="sm:max-w-2xl md:max-w-3xl rounded-3xl">
           <DialogHeader>
-            <DialogTitle className="font-black">
+            <DialogTitle className="font-black text-xl">
               Detalle de Venta {selectedSale?.saleNumber}
             </DialogTitle>
           </DialogHeader>
 
           {selectedSale && (
             <div className="space-y-4 text-sm">
-              <div className="grid grid-cols-2 gap-2 p-3 rounded-2xl bg-muted/40 border border-border text-xs">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 p-4 rounded-2xl bg-muted/40 border border-border text-xs">
                 <div>
-                  <span className="text-muted-foreground block">Cliente:</span>
-                  <span>
-                    {selectedSale.customerName === "Cliente Mostrador"
-                      ? ""
-                      : selectedSale.customerName || ""}
+                  <span className="text-muted-foreground block text-[11px] font-medium">Cliente:</span>
+                  <span className="font-bold text-foreground text-sm">
+                    {selectedSale.customerName === "Cliente Mostrador" || !selectedSale.customerName
+                      ? "Cliente Mostrador"
+                      : selectedSale.customerName}
+                  </span>
+                  {selectedSale.customerDoc && (
+                    <span className="text-muted-foreground block text-[11px]">
+                      Doc: {selectedSale.customerDoc}
+                    </span>
+                  )}
+                </div>
+
+                <div>
+                  <span className="text-muted-foreground block text-[11px] font-medium">Cajero:</span>
+                  <span className="font-bold text-foreground text-sm">
+                    {selectedSale.user?.name || selectedSale.user?.username || "—"}
                   </span>
                 </div>
+
                 <div>
-                  <span className="text-muted-foreground block">Cajero:</span>
-                  <span>{selectedSale.user?.name}</span>
+                  <span className="text-muted-foreground block text-[11px] font-medium">Método de Pago:</span>
+                  <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 mt-0.5">
+                    {selectedSale.paymentMethod === "CASH" && "Efectivo"}
+                    {selectedSale.paymentMethod === "CARD" && "Tarjeta"}
+                    {selectedSale.paymentMethod === "TRANSFER" && "Transferencia"}
+                    {!["CASH", "CARD", "TRANSFER"].includes(selectedSale.paymentMethod) && (selectedSale.paymentMethod || "Efectivo")}
+                  </span>
                 </div>
+
                 <div>
-                  <span className="text-muted-foreground block">Recibido:</span>
-                  <span>${formatNumber(selectedSale.amountReceived)}</span>
+                  <span className="text-muted-foreground block text-[11px] font-medium">Efectivo Recibido:</span>
+                  <span className="font-bold text-foreground text-sm">
+                    ${formatNumber(selectedSale.amountReceived)}
+                  </span>
                 </div>
+
                 <div>
-                  <span className="text-muted-foreground block">Vuelto entregado:</span>
-                  <span className="text-sky-500">
+                  <span className="text-muted-foreground block text-[11px] font-medium">Cambio / Vuelto:</span>
+                  <span className="font-bold text-sky-500 text-sm">
                     ${formatNumber(selectedSale.changeAmount)}
+                  </span>
+                </div>
+
+                <div>
+                  <span className="text-muted-foreground block text-[11px] font-medium">Descuento Aplicado:</span>
+                  <span className={`font-bold text-sm ${Number(selectedSale.discountAmount) > 0 ? "text-amber-500" : "text-muted-foreground"}`}>
+                    ${formatNumber(selectedSale.discountAmount || 0)}
                   </span>
                 </div>
               </div>
@@ -584,21 +613,21 @@ export default function SalesHistoryPage() {
                 <table className="w-full text-sm">
                   <thead className="bg-muted/50 text-xs uppercase text-muted-foreground">
                     <tr>
-                      <th className="px-3 py-2 text-left font-bold">Producto</th>
-                      <th className="px-3 py-2 text-center font-bold">Cant.</th>
-                      <th className="px-3 py-2 text-right font-bold">Precio</th>
-                      <th className="px-3 py-2 text-right font-bold">Subtotal</th>
+                      <th className="px-4 py-2.5 text-left font-bold">Producto</th>
+                      <th className="px-4 py-2.5 text-center font-bold">Cant.</th>
+                      <th className="px-4 py-2.5 text-right font-bold">Precio</th>
+                      <th className="px-4 py-2.5 text-right font-bold">Subtotal</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border/50 text-sm text-foreground">
                     {(selectedSale.items || []).map((item: any) => (
                       <tr key={item.id}>
-                        <td className="px-3 py-2 font-normal">{item.productName}</td>
-                        <td className="px-3 py-2 text-center font-normal">{item.quantity}</td>
-                        <td className="px-3 py-2 text-right font-normal">
+                        <td className="px-4 py-2.5 font-medium">{item.productName}</td>
+                        <td className="px-4 py-2.5 text-center">{item.quantity}</td>
+                        <td className="px-4 py-2.5 text-right font-normal">
                           ${formatNumber(item.unitPrice)}
                         </td>
-                        <td className="px-3 py-2 text-right font-normal">
+                        <td className="px-4 py-2.5 text-right font-bold">
                           ${formatNumber(item.subtotal)}
                         </td>
                       </tr>
@@ -607,11 +636,32 @@ export default function SalesHistoryPage() {
                 </table>
               </div>
 
-              <div className="flex justify-between items-center p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/30">
-                <span className="font-bold">Total de la Venta</span>
-                <span className="text-xl font-black text-emerald-500">
-                  ${formatNumber(selectedSale.total)}
-                </span>
+              <div className="space-y-1.5 p-4 rounded-2xl bg-muted/30 border border-border">
+                {Number(selectedSale.discountAmount) > 0 && (
+                  <div className="flex justify-between items-center text-xs text-muted-foreground">
+                    <span>Subtotal Productos:</span>
+                    <span className="font-medium text-foreground">
+                      ${formatNumber(
+                        (selectedSale.items || []).reduce(
+                          (acc: number, item: any) => acc + Number(item.subtotal || 0),
+                          0
+                        )
+                      )}
+                    </span>
+                  </div>
+                )}
+                {Number(selectedSale.discountAmount) > 0 && (
+                  <div className="flex justify-between items-center text-xs font-bold text-amber-500">
+                    <span>Descuento Otorgado:</span>
+                    <span>-${formatNumber(selectedSale.discountAmount)}</span>
+                  </div>
+                )}
+                <div className="flex justify-between items-center pt-2 border-t border-border/60">
+                  <span className="font-bold text-base text-foreground">Total Pagado:</span>
+                  <span className="text-2xl font-black text-emerald-500">
+                    ${formatNumber(selectedSale.total)}
+                  </span>
+                </div>
               </div>
             </div>
           )}
