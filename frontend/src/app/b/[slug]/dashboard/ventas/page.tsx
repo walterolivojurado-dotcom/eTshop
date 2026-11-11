@@ -590,10 +590,10 @@ export default function SalesHistoryPage() {
                   },
                   {
                     label: "Cajero",
-                    value: selectedSale.user?.name || selectedSale.user?.username || "â€”",
+                    value: selectedSale.user?.name || selectedSale.user?.username || "—",
                   },
                   {
-                    label: "MÃ©todo de pago",
+                    label: "Método de pago",
                     value:
                       { CASH: "Efectivo", CARD: "Tarjeta", TRANSFER: "Transferencia" }[
                         selectedSale.paymentMethod as string
