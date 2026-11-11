@@ -300,6 +300,7 @@ export default function InventoryPage() {
 
       return {
         "N°": index + 1,
+        "ID": String(prod.id || "").slice(0, 8).toLowerCase(),
         "PRODUCTO": prod.name || "",
         "MARCA": prod.brand || "",
         "LÍNEA": prod.sku || "",
@@ -319,6 +320,7 @@ export default function InventoryPage() {
 
     const colWidths = [
       6,   // N°
+      12,  // ID
       32,  // PRODUCTO
       18,  // MARCA
       22,  // LÍNEA
