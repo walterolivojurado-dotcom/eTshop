@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useParams } from "next/navigation";
 import api from "@/lib/api";
 import { useAuthStore } from "@/lib/auth-store";
@@ -15,6 +15,7 @@ import {
   X,
   TrendingUp,
   CalendarRange,
+  Users,
 } from "lucide-react";
 import { format, startOfDay, endOfDay, startOfMonth, endOfMonth } from "date-fns";
 import { es } from "date-fns/locale";
@@ -50,6 +51,8 @@ export default function SalesHistoryPage() {
     user?.companyId || user?.businessId || null
   );
   const [sales, setSales] = useState<any[]>([]);
+  const [staffMembers, setStaffMembers] = useState<any[]>([]);
+  const [selectedCashier, setSelectedCashier] = useState<string>("ALL");
   const [search, setSearch] = useState("");
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
@@ -70,8 +73,12 @@ export default function SalesHistoryPage() {
   const fetchSales = async (cid: string) => {
     setIsLoading(true);
     try {
-      const res = await api.get(`/sales?companyId=${cid}`);
-      setSales(res.data.data || []);
+      const [salesRes, staffRes] = await Promise.all([
+        api.get(`/sales?companyId=${cid}`),
+        api.get(`/staff?companyId=${cid}`).catch(() => ({ data: { data: [] } })),
+      ]);
+      setSales(salesRes.data.data || []);
+      setStaffMembers(staffRes.data?.data || []);
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Error cargando historial de ventas");
     } finally {
@@ -119,7 +126,34 @@ export default function SalesHistoryPage() {
     if (date) setIsEndOpen(false);
   };
 
+  const cashiers = useMemo(() => {
+    const map = new Map<string, string>();
+    staffMembers.forEach((st) => {
+      if (st.id && st.name) {
+        map.set(st.id, st.name);
+      }
+    });
+    sales.forEach((s) => {
+      const uid = s.userId || s.user?.id;
+      const uname = s.user?.name || s.user?.username;
+      if (uid && uname && !map.has(uid)) {
+        map.set(uid, uname);
+      }
+    });
+    return Array.from(map.entries()).map(([id, name]) => ({ id, name }));
+  }, [staffMembers, sales]);
+
+  const selectedCashierName = useMemo(() => {
+    if (selectedCashier === "ALL") return "";
+    return cashiers.find((c) => c.id === selectedCashier)?.name || "";
+  }, [selectedCashier, cashiers]);
+
   const filteredSales = sales.filter((s) => {
+    if (selectedCashier !== "ALL") {
+      const uId = s.userId || s.user?.id;
+      if (uId !== selectedCashier) return false;
+    }
+
     const q = search.trim().toLowerCase();
     const matchesSearch =
       !q ||
@@ -142,7 +176,15 @@ export default function SalesHistoryPage() {
   });
 
   const now = new Date();
-  const allCompletedSales = sales.filter((s) => s.status === "COMPLETED");
+  const allCompletedSales = sales.filter((s) => {
+    if (s.status !== "COMPLETED") return false;
+    if (selectedCashier !== "ALL") {
+      const uId = s.userId || s.user?.id;
+      if (uId !== selectedCashier) return false;
+    }
+    return true;
+  });
+
   const salesToday = allCompletedSales.filter((s) => {
     const d = new Date(s.createdAt);
     return d >= startOfDay(now) && d <= endOfDay(now);
@@ -175,6 +217,7 @@ export default function SalesHistoryPage() {
                 <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
                   Hoy • {salesToday.length}{" "}
                   {salesToday.length === 1 ? "venta" : "ventas"}
+                  {selectedCashierName ? ` (${selectedCashierName})` : ""}
                 </span>
               </div>
               <p className="text-2xl md:text-3xl font-black text-emerald-500 tracking-tight">
@@ -197,6 +240,7 @@ export default function SalesHistoryPage() {
                 <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-sky-500/15 text-sky-600 dark:text-sky-400 capitalize">
                   {currentMonthLabel} • {salesMonth.length}{" "}
                   {salesMonth.length === 1 ? "venta" : "ventas"}
+                  {selectedCashierName ? ` (${selectedCashierName})` : ""}
                 </span>
               </div>
               <p className="text-2xl md:text-3xl font-black text-sky-500 tracking-tight">
@@ -224,6 +268,28 @@ export default function SalesHistoryPage() {
             </div>
 
             <div className="flex flex-wrap items-center gap-2.5">
+              {/* Filtro por Cajeros */}
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground whitespace-nowrap">
+                  Cajero:
+                </span>
+                <div className="relative">
+                  <select
+                    value={selectedCashier}
+                    onChange={(e) => setSelectedCashier(e.target.value)}
+                    className="h-9 pl-3 pr-8 rounded-xl border border-border bg-background text-xs font-semibold text-foreground focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer appearance-none min-w-[150px]"
+                  >
+                    <option value="ALL">Todos los cajeros</option>
+                    {cashiers.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="absolute right-2.5 top-2.5 h-3.5 w-3.5 pointer-events-none text-muted-foreground" />
+                </div>
+              </div>
+
               {/* Selector interactivo Fecha Inicio */}
               <div className="flex items-center gap-2">
                 <span className="text-xs text-muted-foreground whitespace-nowrap">
@@ -391,7 +457,7 @@ export default function SalesHistoryPage() {
                 </Popover>
               </div>
 
-              {(startDate || endDate) && (
+              {(startDate || endDate || selectedCashier !== "ALL") && (
                 <Button
                   type="button"
                   variant="outline"
@@ -399,6 +465,7 @@ export default function SalesHistoryPage() {
                   onClick={() => {
                     setStartDate(undefined);
                     setEndDate(undefined);
+                    setSelectedCashier("ALL");
                   }}
                   className="cursor-pointer rounded-xl text-xs font-normal text-muted-foreground hover:text-destructive hover:border-destructive/40"
                 >
