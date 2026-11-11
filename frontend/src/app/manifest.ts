@@ -2,25 +2,31 @@ import { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'eTambook',
-    short_name: 'eTambook',
-    description: 'Sistema de Agendamiento Profesional High-End',
+    name: 'eTshop — Sistema POS & Gestión',
+    short_name: 'eTshop',
+    description: 'Plataforma Multi-Tenant de Punto de Venta, Inventario y Facturación',
     start_url: '/',
     display: 'standalone',
     background_color: '#FFFFFF',
-    theme_color: '#FFFFFF',
+    theme_color: '#10b981',
     icons: [
       {
         src: '/icon-192.png',
         sizes: '192x192',
         type: 'image/png',
-        purpose: 'any maskable' as any,
+        purpose: 'any',
       },
       {
         src: '/icon-512.png',
         sizes: '512x512',
         type: 'image/png',
-        purpose: 'any maskable' as any,
+        purpose: 'any',
+      },
+      {
+        src: '/icon-512.png',
+        sizes: '512x512',
+        type: 'image/png',
+        purpose: 'maskable',
       },
     ],
   };

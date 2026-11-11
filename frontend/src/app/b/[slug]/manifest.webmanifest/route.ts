@@ -7,26 +7,32 @@ export async function GET(
   const { slug } = await params;
 
   return NextResponse.json({
-    name: 'eTambook',
-    short_name: 'eTambook',
-    description: 'Sistema de Agendamiento Profesional High-End',
+    name: 'eTshop — Sistema POS',
+    short_name: 'eTshop',
+    description: 'Plataforma Multi-Tenant de Punto de Venta, Inventario y Facturación',
     start_url: `/b/${slug}`,
     display: 'standalone',
     background_color: '#FFFFFF',
-    theme_color: '#FFFFFF',
+    theme_color: '#10b981',
     scope: `/b/${slug}/`,
     icons: [
       {
         src: '/icon-192.png',
         sizes: '192x192',
         type: 'image/png',
-        purpose: 'any maskable' as any,
+        purpose: 'any',
       },
       {
         src: '/icon-512.png',
         sizes: '512x512',
         type: 'image/png',
-        purpose: 'any maskable' as any,
+        purpose: 'any',
+      },
+      {
+        src: '/icon-512.png',
+        sizes: '512x512',
+        type: 'image/png',
+        purpose: 'maskable',
       },
     ],
   });

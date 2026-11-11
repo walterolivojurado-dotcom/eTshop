@@ -5,9 +5,15 @@ export const metadata = {
   title: "eTshop — Sistema POS & Gestión de Inventarios",
   description: "Plataforma Multi-Tenant de Punto de Venta, Inventario y Ventas para comercios locales",
   icons: {
-    icon: [{ url: "/api/settings/favicon" }],
-    shortcut: [{ url: "/api/settings/favicon" }],
-    apple: [{ url: "/api/settings/favicon" }],
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    shortcut: [{ url: "/favicon.ico" }],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
   appleWebApp: {
     capable: true,
