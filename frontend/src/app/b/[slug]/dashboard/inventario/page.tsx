@@ -263,6 +263,7 @@ export default function InventoryPage() {
     const matchesSearch =
       !q ||
       p.name.toLowerCase().includes(q) ||
+      (p.id && String(p.id).toLowerCase().includes(q)) ||
       (p.brand && p.brand.toLowerCase().includes(q)) ||
       (p.sku && p.sku.toLowerCase().includes(q)) ||
       (p.barcode && p.barcode.toLowerCase().includes(q));
@@ -493,8 +494,9 @@ export default function InventoryPage() {
             <table className="w-full text-sm text-left">
               <thead className="text-xs uppercase bg-muted/40 text-muted-foreground border-b border-border tracking-wider">
                 <tr>
-                  <th className="px-6 py-4 font-bold min-w-[300px]">Producto / Código</th>
-                  <th className="px-5 py-4 font-bold min-w-[140px]">Marca</th>
+                  <th className="px-4 py-4 font-bold w-[100px] whitespace-nowrap">ID</th>
+                  <th className="px-5 py-4 font-bold min-w-[260px]">Producto / Código</th>
+                  <th className="px-4 py-4 font-bold min-w-[100px]">Marca</th>
                   <th className="px-5 py-4 font-bold min-w-[170px]">Categoría</th>
                   <th className="px-5 py-4 font-bold min-w-[110px]">Costo</th>
                   <th className="px-5 py-4 font-bold min-w-[120px]">Precio Venta</th>
@@ -505,7 +507,15 @@ export default function InventoryPage() {
               <tbody className="divide-y divide-border/60 text-sm text-foreground">
                 {filteredProducts.map((prod) => (
                   <tr key={prod.id} className="hover:bg-muted/20 transition-colors">
-                    <td className="px-6 py-4 text-sm text-foreground">
+                    <td className="px-4 py-4 whitespace-nowrap">
+                      <span
+                        title={prod.id}
+                        className="font-mono text-xs font-semibold text-muted-foreground uppercase"
+                      >
+                        {String(prod.id).slice(0, 8)}
+                      </span>
+                    </td>
+                    <td className="px-5 py-4 text-sm text-foreground">
                       <p className="font-bold text-base text-foreground">
                         {prod.name}
                       </p>
@@ -513,7 +523,7 @@ export default function InventoryPage() {
                         Línea: {prod.sku || "—"} • Barras: {prod.barcode || "—"}
                       </p>
                     </td>
-                    <td className="px-5 py-4 text-sm text-foreground">
+                    <td className="px-4 py-4 text-sm text-foreground">
                       {prod.brand ? (
                         <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                           {prod.brand}
